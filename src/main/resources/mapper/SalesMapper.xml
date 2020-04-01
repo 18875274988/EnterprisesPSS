@@ -9,6 +9,6 @@
         select category_name from category_info
     </select>
     <insert id="insertTemporary">
-        insert into temporary_table values (#{id},#{count} ,null ,null ,null ,1)
+        insert into temporary_table values (#{id},#{count} ,null ,null ,null ,#{name})
     </insert>
 </mapper>

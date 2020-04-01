@@ -1,10 +1,11 @@
 package com.puyin.cn.controller;
 
-import com.puyin.cn.BO.TemporaryProduBo;
-import com.puyin.cn.BO.TemporaryProduct;
+import com.puyin.cn.BO.TemporaryProductBo;
 import com.puyin.cn.entity.CategroyPo;
+import com.puyin.cn.entity.TemporaryPo;
 import com.puyin.cn.service.SalesService;
 import com.puyin.cn.vo.SalesVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,17 +38,20 @@ public class SalesController {
      * 存储待下单临时货物信息
      */
     @PostMapping("insertTemporary")
-    public int insertTemporary(@RequestBody TemporaryProduBo temporaryProduBo){
-        TemporaryProduBo temporaryProduBo1 = temporaryProduBo;
-//        for (TemporaryProduct produBo : productList) {
-//            TemporaryPo temporaryPo = new TemporaryPo();
-//            BeanUtils.copyProperties(produBo, temporaryPo);
-//            int row = salesService.intsertTemporary(temporaryPo);
-//            if(row==1){rows++;}
-//        }
-//        if((productList.size()+1)==rows){
-//            return 1;
-//        }else {return 0;}
-        return 0;
+    public int insertTemporary(@RequestBody List<TemporaryProductBo> temporaryProductBos){
+        List<TemporaryProductBo> temporaryProductBos1 = temporaryProductBos;
+        int row=0;
+        for (TemporaryProductBo temporaryProductBo : temporaryProductBos) {
+            TemporaryPo temporaryPo = new TemporaryPo();
+            BeanUtils.copyProperties(temporaryProductBo,temporaryPo);
+            row = salesService.intsertTemporary(temporaryPo);
+            if(row==1){row++;}
+        }
+        if(row==temporaryProductBos.size()) {
+            return 1;
+        }else {
+            return 0;
+        }
+
     }
 }

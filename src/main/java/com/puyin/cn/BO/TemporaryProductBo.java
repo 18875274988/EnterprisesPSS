@@ -9,13 +9,17 @@ import lombok.Data;
  * @date 2020/3/31
  **/
 @Data
-public class TemporaryProduct {
+public class TemporaryProductBo {
     /**
      * 货物id
      */
-    private String id;
+    private Integer id;
     /**
      * 货物数量
      */
-    private  String count;
+    private  Integer count;
+    /**
+     * 下单销售员账户名
+     */
+    private String name;
 }

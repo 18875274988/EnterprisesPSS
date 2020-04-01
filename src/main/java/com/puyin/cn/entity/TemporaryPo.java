@@ -21,6 +21,10 @@ public class TemporaryPo {
      */
     private Integer count;
     /**
+     * 下单销售员账户名
+     */
+    private String name;
+    /**
      * 客户名
      */
     private String clientName;
