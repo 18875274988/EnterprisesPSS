@@ -24,7 +24,7 @@ public interface SalesDao {
     /**
      * 查询临时订单信息
      */
-    List<TemporaryPo> selectTemporary(String name);
+    List<TemporaryPo> selectTemporary(String accountName);
     /**
      * 删除临时订单信息
      */

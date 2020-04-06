@@ -25,7 +25,7 @@ public class TemporaryProductBo {
     /**
      * 下单销售员账户名
      */
-    private String name;
+    private String accountName;
     /**
      * 货物单价
      */

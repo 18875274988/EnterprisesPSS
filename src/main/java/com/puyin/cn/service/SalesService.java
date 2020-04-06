@@ -25,5 +25,5 @@ public interface SalesService {
      * @param name
      * @return
      */
-     List<TemporaryPo> selectTemporary(String name);
+     List<TemporaryPo> selectTemporary(String accountName);
 }

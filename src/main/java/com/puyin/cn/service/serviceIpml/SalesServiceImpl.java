@@ -63,7 +63,6 @@ public class SalesServiceImpl implements SalesService {
 //            temporaryPo.setProductPrice(temporaryPo.getCount()*temporaryPo.getProductPrice());
 //            list.add(temporaryPo);
 //        }
-        salesDao.deleteTemporary();
         return temporaryPos;
     }
 }

@@ -57,11 +57,11 @@ public class SalesController {
 
     /**
      * 查询临时订单表
-     * @param name
+     * @param accountName
      * @return
      */
     @RequestMapping("selectTemporary")
-    public List<TemporaryPo> selectTemporary(String name){
-        return salesService.selectTemporary(name);
+    public List<TemporaryPo> selectTemporary(String accountName){
+        return salesService.selectTemporary(accountName);
     }
 }
