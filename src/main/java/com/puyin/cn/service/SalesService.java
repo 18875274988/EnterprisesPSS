@@ -19,4 +19,11 @@ public interface SalesService {
      * 向临时表插入待下单货物
      */
      int intsertTemporary(TemporaryPo temporaryPo);
+
+    /**
+     * 查询临时货物信息
+     * @param name
+     * @return
+     */
+     List<TemporaryPo> selectTemporary(String name);
 }

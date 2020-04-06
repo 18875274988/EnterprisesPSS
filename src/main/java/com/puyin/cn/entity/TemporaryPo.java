@@ -17,23 +17,20 @@ public class TemporaryPo {
      */
     private Integer id;
     /**
-     * 货物下单数量
+     * 货物名称
      */
-    private Integer count;
+    private String productName;
+    /**
+     * 货物数量
+     */
+    private  Integer count;
     /**
      * 下单销售员账户名
      */
     private String name;
     /**
-     * 客户名
+     * 货物单价
      */
-    private String clientName;
-    /**
-     * 客户身份证号
-     */
-    private String clientId;
-    /**
-     * 客户电话
-     */
-    private  String clientTel;
+    private Double productPrice;
+
 }

@@ -1,6 +1,7 @@
 package com.puyin.cn.controller;
 
 import com.puyin.cn.BO.TemporaryProductBo;
+import com.puyin.cn.dao.SalesDao;
 import com.puyin.cn.entity.CategroyPo;
 import com.puyin.cn.entity.TemporaryPo;
 import com.puyin.cn.service.SalesService;
@@ -39,19 +40,28 @@ public class SalesController {
      */
     @PostMapping("insertTemporary")
     public int insertTemporary(@RequestBody List<TemporaryProductBo> temporaryProductBos){
-        List<TemporaryProductBo> temporaryProductBos1 = temporaryProductBos;
         int row=0;
         for (TemporaryProductBo temporaryProductBo : temporaryProductBos) {
             TemporaryPo temporaryPo = new TemporaryPo();
             BeanUtils.copyProperties(temporaryProductBo,temporaryPo);
-            row = salesService.intsertTemporary(temporaryPo);
-            if(row==1){row++;}
+             row = salesService.intsertTemporary(temporaryPo);
+            if (row==1){row++;}
         }
-        if(row==temporaryProductBos.size()) {
+        if (row==temporaryProductBos.size()){
             return 1;
         }else {
             return 0;
         }
 
+    }
+
+    /**
+     * 查询临时订单表
+     * @param name
+     * @return
+     */
+    @RequestMapping("selectTemporary")
+    public List<TemporaryPo> selectTemporary(String name){
+        return salesService.selectTemporary(name);
     }
 }

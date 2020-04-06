@@ -21,4 +21,12 @@ public interface SalesDao {
      * 想临时表插入数据
      */
     int insertTemporary(TemporaryPo temporaryPo);
+    /**
+     * 查询临时订单信息
+     */
+    List<TemporaryPo> selectTemporary(String name);
+    /**
+     * 删除临时订单信息
+     */
+    int deleteTemporary();
 }

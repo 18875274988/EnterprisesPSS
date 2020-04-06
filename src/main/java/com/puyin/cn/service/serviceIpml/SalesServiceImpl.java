@@ -9,6 +9,7 @@ import com.puyin.cn.vo.SalesVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,5 +53,17 @@ public class SalesServiceImpl implements SalesService {
     @Override
     public int intsertTemporary(TemporaryPo temporaryPo) {
         return salesDao.insertTemporary(temporaryPo);
+    }
+
+    @Override
+    public List<TemporaryPo> selectTemporary(@PathVariable("name") String name) {
+        List<TemporaryPo> temporaryPos = salesDao.selectTemporary(name);
+//        ArrayList<TemporaryPo> list = new ArrayList<>();
+//        for (TemporaryPo temporaryPo : temporaryPos) {
+//            temporaryPo.setProductPrice(temporaryPo.getCount()*temporaryPo.getProductPrice());
+//            list.add(temporaryPo);
+//        }
+        salesDao.deleteTemporary();
+        return temporaryPos;
     }
 }
