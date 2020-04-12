@@ -21,7 +21,7 @@ public class TemporaryProductBo {
     /**
      * 货物数量
      */
-    private  Integer count;
+    private  String count;
     /**
      * 下单销售员账户名
      */

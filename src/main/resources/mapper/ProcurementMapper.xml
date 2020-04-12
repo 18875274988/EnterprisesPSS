@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.puyin.cn.dao.ProcurementDao">
+    <insert id="insertPurchaseOrder">
+        insert into purchase_order values (null ,#{purchaseOrderNo} ,#{purchaseSellName} ,null ,null ,null ,0)
+    </insert>
+    <select id="selectPurchaseId" resultType="java.lang.Integer">
+        select purchase_order_id from purchase_order where purchase_order_no=#{purchaseOrderNo}
+    </select>
+    <insert id="insetPurchaseOrderProduct">
+        insert into purchase_order_info(purchase_order_id,product_name,product_count) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.purchaseOrderId,jdbcType=INTEGER} ,#{item.productName,jdbcType=VARCHAR} ,#{item.productCount} ,null )
+        </foreach>
+
+    </insert>
+    <select id="findAllPurchase" resultType="com.puyin.cn.vo.PurchaseVo">
+        select purchase_order_id,purchase_order_no,purchase_sell_name from  purchase_order where purchase_order_state=0;
+    </select>
+    <select id="findPurchaseById" resultType="com.puyin.cn.entity.PurchaseProductInfoPo">
+  select * from purchase_order_info WHERE purchase_order_id=#{purchaseOrderId};
+
+    </select>
+    <update id="insertPurchasePriceById">
+        update purchase_order_info set product_purchase_price=#{productPurchasePrice,jdbcType=DOUBLE}
+         where purchase_order_id=#{purchaseOrderId,jdbcType=INTEGER}  and product_name=#{productName}
+    </update>
+
+</mapper>

@@ -1,8 +1,10 @@
 package com.puyin.cn.dao;
 
 import com.puyin.cn.entity.CategroyPo;
+import com.puyin.cn.entity.CommodityStocksPo;
 import com.puyin.cn.entity.SalesPO;
 import com.puyin.cn.entity.TemporaryPo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -28,5 +30,17 @@ public interface SalesDao {
     /**
      * 删除临时订单信息
      */
-    int deleteTemporary();
+    int deleteTemporary(String accountName);
+    /**
+     * 查询销售部提交商品库存
+     */
+    List<CommodityStocksPo> findProductCount(@Param("ids")List<Integer> ids);
+
+    /**
+     * 根据id查询商品名
+     * @param id
+     * @return
+     */
+    String  findProductNameById(Integer id);
+
 }

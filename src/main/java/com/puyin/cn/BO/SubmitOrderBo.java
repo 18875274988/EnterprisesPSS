@@ -14,6 +14,10 @@ import java.util.List;
 @Data
 public class SubmitOrderBo {
     /**
+     * 订单总价
+     */
+    private String totalPrice;
+    /**
      * 货物信息
      */
    private List<TemporaryPo> productList;

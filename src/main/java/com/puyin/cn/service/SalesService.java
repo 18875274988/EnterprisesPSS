@@ -1,6 +1,8 @@
 package com.puyin.cn.service;
 
+import com.puyin.cn.BO.SubmitOrderBo;
 import com.puyin.cn.entity.CategroyPo;
+import com.puyin.cn.entity.CommodityStocksPo;
 import com.puyin.cn.entity.TemporaryPo;
 import com.puyin.cn.vo.SalesVo;
 
@@ -22,8 +24,15 @@ public interface SalesService {
 
     /**
      * 查询临时货物信息
-     * @param name
+     * @param accountName
      * @return
      */
      List<TemporaryPo> selectTemporary(String accountName);
+
+    /**
+     * 查询销售部提交订单货物库存是否缺货
+     * @param submitOrderBo
+     * @return
+     */
+     int findProductCount(SubmitOrderBo submitOrderBo);
 }

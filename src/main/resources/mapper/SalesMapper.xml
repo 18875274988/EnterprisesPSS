@@ -15,6 +15,15 @@
         select * from temporary_table where account_name=#{accountName}
     </select>
     <delete id="deleteTemporary">
-        truncate table temporary_table;
+       DELETE FROM temporary_table where account_name=#{accountName}
     </delete>
+    <select id="findProductCount" resultType="com.puyin.cn.entity.CommodityStocksPo">
+        SELECT id,product_count FROM eps_product_info WHERE id IN
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+    <select id="findProductNameById" resultType="java.lang.String">
+        select product_name from eps_product_info where id=#{id,jdbcType=INTEGER}
+    </select>
 </mapper>

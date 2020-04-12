@@ -23,7 +23,7 @@ public class TemporaryPo {
     /**
      * 货物数量
      */
-    private  Integer count;
+    private  String count;
     /**
      * 下单销售员账户名
      */
@@ -32,5 +32,9 @@ public class TemporaryPo {
      * 货物单价
      */
     private Double productPrice;
+    /**
+     * 货物id
+     */
+    private Integer productId;
 
 }
