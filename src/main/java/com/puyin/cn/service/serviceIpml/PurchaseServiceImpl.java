@@ -3,6 +3,7 @@ package com.puyin.cn.service.serviceIpml;
 import com.puyin.cn.BO.PurchaseProductBo;
 import com.puyin.cn.BO.PurchaseSubmitBo;
 import com.puyin.cn.dao.ProcurementDao;
+import com.puyin.cn.entity.FinancePo;
 import com.puyin.cn.entity.PurchaseProductInfoPo;
 import com.puyin.cn.service.PurchaseService;
 import com.puyin.cn.vo.PurchaseVo;
@@ -50,6 +51,14 @@ public class PurchaseServiceImpl implements PurchaseService {
             purchaseProductInfoPo.setSupplierNo(purchaseSubmitBo.getSupplierNo());
             rows+= procurementDao.insertPurchasePriceById(purchaseProductInfoPo);
         }
+        //生成来料付款单
+        FinancePo financePo = new FinancePo();
+        financePo.setAmount(procurementDao.findSumPriceById(purchaseOrderId));
+        financePo.setName(purchaseSubmitBo.getSupplierName());
+        financePo.setOrderId(purchaseOrderId);
+        financePo.setNo(purchaseSubmitBo.getSupplierNo());
+        financePo.setTel(purchaseSubmitBo.getSupplierTel());
+        procurementDao.insertFinance(financePo);
         //查询是否采购完成
         List<Double> purchasePriceByIdList = procurementDao.findPurchasePriceById(purchaseOrderId);
         if(purchasePriceByIdList.size()==0){

@@ -1,6 +1,7 @@
 package com.puyin.cn.dao;
 
 import com.puyin.cn.BO.PurchaseProductBo;
+import com.puyin.cn.entity.FinancePo;
 import com.puyin.cn.entity.PurchaseOrderPo;
 import com.puyin.cn.entity.PurchaseProductInfoPo;
 import com.puyin.cn.entity.purchaseOrderProductPo;
@@ -79,4 +80,18 @@ public interface ProcurementDao {
      * @return
      */
     List<StockoutPurchaseVo> findAllStockoutPurchase(String purchaseSellName);
+
+    /**
+     * 生成付款单
+     * @param financePo
+     * @return
+     */
+    int insertFinance(FinancePo financePo);
+
+    /**
+     * 根据商品id求价格和
+     * @param id
+     * @return
+     */
+    Double findSumPriceById(Integer id);
 }

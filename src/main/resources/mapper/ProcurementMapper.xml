@@ -34,5 +34,11 @@
     <select id="findAllStockoutPurchase" resultType="com.puyin.cn.vo.StockoutPurchaseVo">
         select purchase_order_id,purchase_order_no,purchase_order_state ,purchase_sell_name from   purchase_order where purchase_sell_name=#{purchaseSellName} ORDER BY purchase_order_state
     </select>
+    <insert id="insertFinance">
+        insert into finance values (null ,#{orderId} ,#{amount} ,#{name} ,#{tel} ,#{no}, 0,0,now(),null)
+    </insert>
+    <select id="findSumPriceById" resultType="java.lang.Double">
+        SELECT SUM(product_purchase_price) FROM purchase_order_info WHERE purchase_order_id=#{id}
+    </select>
 
 </mapper>
