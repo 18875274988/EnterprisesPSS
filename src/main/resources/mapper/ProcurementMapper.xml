@@ -2,15 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.puyin.cn.dao.ProcurementDao">
     <insert id="insertPurchaseOrder">
-        insert into purchase_order values (null ,#{purchaseOrderNo} ,#{purchaseSellName} ,null ,null ,null ,0)
+        insert into purchase_order values (null ,#{purchaseOrderNo} ,#{purchaseSellName} ,0)
     </insert>
     <select id="selectPurchaseId" resultType="java.lang.Integer">
         select purchase_order_id from purchase_order where purchase_order_no=#{purchaseOrderNo}
     </select>
     <insert id="insetPurchaseOrderProduct">
-        insert into purchase_order_info(purchase_order_id,product_name,product_count) values
+        insert into purchase_order_info(purchase_order_id,product_name,product_count,product_purchase_price,supplier_name,supplier_tel,supplier_no) values
         <foreach collection="list" item="item" index="index" separator=",">
-            (#{item.purchaseOrderId,jdbcType=INTEGER} ,#{item.productName,jdbcType=VARCHAR} ,#{item.productCount} ,null )
+            (#{item.purchaseOrderId,jdbcType=INTEGER} ,#{item.productName,jdbcType=VARCHAR} ,#{item.productCount} ,null ,null ,null ,null )
         </foreach>
 
     </insert>
@@ -18,12 +18,21 @@
         select purchase_order_id,purchase_order_no,purchase_sell_name from  purchase_order where purchase_order_state=0;
     </select>
     <select id="findPurchaseById" resultType="com.puyin.cn.entity.PurchaseProductInfoPo">
-  select * from purchase_order_info WHERE purchase_order_id=#{purchaseOrderId};
+	select * from purchase_order_info where purchase_order_id=#{purchaseOrderId} and ISNULL(product_purchase_price)
 
     </select>
     <update id="insertPurchasePriceById">
-        update purchase_order_info set product_purchase_price=#{productPurchasePrice,jdbcType=DOUBLE}
+        update purchase_order_info set product_purchase_price=#{productPurchasePrice,jdbcType=DOUBLE},supplier_name=#{supplierName} ,supplier_tel=#{supplierTel} ,supplier_no=#{supplierNo}
          where purchase_order_id=#{purchaseOrderId,jdbcType=INTEGER}  and product_name=#{productName}
     </update>
+    <select id="findPurchasePriceById" resultType="java.lang.Double">
+        select purchase_order_id from purchase_order_info where purchase_order_id=#{purchaseOrderId} AND ISNULL(product_purchase_price)
+    </select>
+    <update id="purchaseOrderAccomplish">
+        update purchase_order set purchase_order_state=1 where purchase_order_id=#{purchaseOrderId}
+    </update>
+    <select id="findAllStockoutPurchase" resultType="com.puyin.cn.vo.StockoutPurchaseVo">
+        select purchase_order_id,purchase_order_no,purchase_order_state ,purchase_sell_name from   purchase_order where purchase_sell_name=#{purchaseSellName} ORDER BY purchase_order_state
+    </select>
 
 </mapper>

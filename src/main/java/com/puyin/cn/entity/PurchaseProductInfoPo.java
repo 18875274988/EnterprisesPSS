@@ -26,4 +26,16 @@ public class PurchaseProductInfoPo {
      * 货物采购价
      */
    private Double productPurchasePrice;
+    /**
+     * 供应商姓名
+     */
+    private  String supplierName;
+    /**
+     * 供应商电话
+     */
+    private String  supplierTel;
+    /**
+     * 供应商商身份证号
+     */
+    private  String supplierNo;
 }

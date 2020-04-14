@@ -1,8 +1,10 @@
 package com.puyin.cn.service;
 
+import com.puyin.cn.BO.PurchaseProductBo;
 import com.puyin.cn.BO.PurchaseSubmitBo;
 import com.puyin.cn.entity.PurchaseProductInfoPo;
 import com.puyin.cn.vo.PurchaseVo;
+import com.puyin.cn.vo.StockoutPurchaseVo;
 
 import java.util.List;
 
@@ -26,9 +28,15 @@ public interface PurchaseService {
      */
     List<PurchaseProductInfoPo> findPurchaseById(Integer purchaseOrderId);
     /**
-     * 根据id插入采购价格价格
-     * @param purchaseSubmitBos
+     * 提交采购单
+     * @param purchaseSubmitBo
      * @return
      */
-    int insertPurchasePriceById(List<PurchaseSubmitBo> purchaseSubmitBos);
+    int insertPurchasePriceById(PurchaseSubmitBo purchaseSubmitBo);
+    /**
+     * 查询采购单状态
+     * @return
+     */
+    List<StockoutPurchaseVo> findAllStockoutPurchase(String purchaseSellName);
+
 }

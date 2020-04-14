@@ -1,10 +1,11 @@
 package com.puyin.cn.dao;
 
-import com.puyin.cn.BO.PurchaseSubmitBo;
+import com.puyin.cn.BO.PurchaseProductBo;
 import com.puyin.cn.entity.PurchaseOrderPo;
 import com.puyin.cn.entity.PurchaseProductInfoPo;
 import com.puyin.cn.entity.purchaseOrderProductPo;
 import com.puyin.cn.vo.PurchaseVo;
+import com.puyin.cn.vo.StockoutPurchaseVo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -54,8 +55,28 @@ public interface ProcurementDao {
 
     /**
      * 根据id插入采购价格价格
-     * @param purchaseSubmitBo
+     * @param purchaseProductInfoPo
      * @return
      */
-    int insertPurchasePriceById(PurchaseSubmitBo purchaseSubmitBo);
+    int insertPurchasePriceById(PurchaseProductInfoPo purchaseProductInfoPo);
+
+    /**
+     * 根据id查询采购价格(用于判断该采购商品是否都已采购)
+     * @param purchaseOrderId
+     * @return
+     */
+    List<Double> findPurchasePriceById(Integer purchaseOrderId);
+
+    /**
+     * 采购完成调用
+     * @param purchaseOrderId
+     * @return
+     */
+    int purchaseOrderAccomplish(Integer purchaseOrderId);
+
+    /**
+     * 查询采购单状态
+     * @return
+     */
+    List<StockoutPurchaseVo> findAllStockoutPurchase(String purchaseSellName);
 }

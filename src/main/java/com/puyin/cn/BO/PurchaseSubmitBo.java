@@ -2,24 +2,30 @@ package com.puyin.cn.BO;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
- * 描述：
+ * 描述：采购单提交
  *
  * @author PuYinsheng
- * @date 2020/4/12
+ * @date 2020/4/14
  **/
 @Data
 public class PurchaseSubmitBo {
     /**
-     * 货物id
+     * 供应商姓名
      */
-    private Integer purchaseOrderId;
+    private  String supplierName;
     /**
-     * 货物名称
+     * 供应商电话
      */
-    private String productName;
+    private String  supplierTel;
     /**
-     * 货物采购价
+     * 供应商商身份证号
      */
-    private Double productPurchasePrice;
+    private  String supplierNo;
+    /**
+     * 供应货物信息
+     */
+    List<PurchaseProductBo> purchaseProductList;
 }

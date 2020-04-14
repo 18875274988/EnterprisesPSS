@@ -1,10 +1,13 @@
 package com.puyin.cn.service.serviceIpml;
 
+import com.puyin.cn.BO.PurchaseProductBo;
 import com.puyin.cn.BO.PurchaseSubmitBo;
 import com.puyin.cn.dao.ProcurementDao;
 import com.puyin.cn.entity.PurchaseProductInfoPo;
 import com.puyin.cn.service.PurchaseService;
 import com.puyin.cn.vo.PurchaseVo;
+import com.puyin.cn.vo.StockoutPurchaseVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,15 +34,35 @@ public class PurchaseServiceImpl implements PurchaseService {
     }
     /**
      * 根据id插入采购价格价格
-     * @param purchaseSubmitBos
+     * @param purchaseSubmitBo
      * @return
      */
     @Override
-    public int insertPurchasePriceById(List<PurchaseSubmitBo> purchaseSubmitBos) {
+    public int insertPurchasePriceById(PurchaseSubmitBo purchaseSubmitBo) {
+        List<PurchaseProductBo> purchaseProductList = purchaseSubmitBo.getPurchaseProductList();
+        Integer purchaseOrderId = purchaseProductList.get(0).getPurchaseOrderId();
         int rows=0;
-        for (PurchaseSubmitBo purchaseSubmitBo : purchaseSubmitBos) {
-            rows+= procurementDao.insertPurchasePriceById(purchaseSubmitBo);
+        PurchaseProductInfoPo purchaseProductInfoPo = new PurchaseProductInfoPo();
+        for (PurchaseProductBo purchaseProductBo : purchaseProductList) {
+            BeanUtils.copyProperties(purchaseProductBo,purchaseProductInfoPo);
+            purchaseProductInfoPo.setSupplierName(purchaseSubmitBo.getSupplierName());
+            purchaseProductInfoPo.setSupplierTel(purchaseSubmitBo.getSupplierTel());
+            purchaseProductInfoPo.setSupplierNo(purchaseSubmitBo.getSupplierNo());
+            rows+= procurementDao.insertPurchasePriceById(purchaseProductInfoPo);
+        }
+        //查询是否采购完成
+        List<Double> purchasePriceByIdList = procurementDao.findPurchasePriceById(purchaseOrderId);
+        if(purchasePriceByIdList.size()==0){
+            procurementDao.purchaseOrderAccomplish(purchaseOrderId);
         }
         return rows;
+    }
+    /**
+     * 查询采购单状态
+     * @return
+     */
+    @Override
+    public List<StockoutPurchaseVo> findAllStockoutPurchase(String purchaseSellName) {
+        return procurementDao.findAllStockoutPurchase(purchaseSellName);
     }
 }
