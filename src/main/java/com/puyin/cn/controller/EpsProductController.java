@@ -1,5 +1,6 @@
 package com.puyin.cn.controller;
 
+import com.puyin.cn.BO.UpdataPrewarningValueBo;
 import com.puyin.cn.entity.EpsProductInfoPo;
 import com.puyin.cn.service.EpsProductService;
 import com.puyin.cn.vo.PermissionVo;
@@ -13,7 +14,7 @@ import java.util.List;
 /**
  * 描述：
  *
- * @author
+ * @author 仓库部
  * @date 2020/4/14
  **/
 @RestController
@@ -28,5 +29,29 @@ public class EpsProductController {
     @RequestMapping("findAllEpsProduct")
     public List<EpsProductInfoPo> findAllEpsProduct(){
         return  epsProductService.findAllEpsProduct();
+    }
+
+    /**
+     * 根据id修改货物预警值
+     * @param updataPrewarningValueBo
+     * @return
+     */
+    @RequestMapping("updateprewarningById")
+    public Integer updateprewarningById(UpdataPrewarningValueBo updataPrewarningValueBo){
+      return   epsProductService.updateprewarningById(updataPrewarningValueBo);
+    }
+    /**
+     * 根据id修改货物预警值
+     * @param productId
+     * @return
+     */
+    @RequestMapping("findEpsPrewarningById")
+    public Integer findEpsPrewarningById(Long productId){
+        Integer epsPrewarningById = epsProductService.findEpsPrewarningById(productId);
+        if(epsPrewarningById==null){
+            return 0;
+        }else{
+            return epsPrewarningById;
+        }
     }
 }

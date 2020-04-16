@@ -4,4 +4,19 @@
     <select id="findAllEpsProduct" resultType="com.puyin.cn.entity.EpsProductInfoPo">
         select * from eps_product_info
     </select>
+    <update id="updateprewarningById">
+        update eps_product_info set prewarning_value =#{prewarningValue}  where id=#{productId};
+    </update>
+    <update id="updataProductStateById">
+        UPDATE eps_product_info SET product_state=1 WHERE id=#{productId} AND #{productCount} &lt;prewarning_value ;
+    </update>
+    <select id="findProductCountById" resultType="java.lang.String">
+        select product_count from eps_product_info where id=#{id}
+    </select>
+    <select id="findEpsPrewarningById" resultType="java.lang.Integer">
+        select  prewarning_value from eps_product_info where id=#{id}
+    </select>
+    <update id="updataProductStateByIdtwo">
+         UPDATE eps_product_info SET product_state=0 WHERE id=#{productId} AND #{productCount} &gt;prewarning_value ;
+    </update>
 </mapper>

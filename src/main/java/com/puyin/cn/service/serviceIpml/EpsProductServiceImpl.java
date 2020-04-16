@@ -1,15 +1,18 @@
 package com.puyin.cn.service.serviceIpml;
 
+import com.puyin.cn.BO.UpdataPrewarningValueBo;
 import com.puyin.cn.dao.EpsProductDao;
 import com.puyin.cn.entity.EpsProductInfoPo;
+import com.puyin.cn.entity.UpdataProductStateByIdPo;
 import com.puyin.cn.service.EpsProductService;
+import com.puyin.cn.util.MyStringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
- * 描述：
+ * 描述：仓库部
  *
  * @author
  * @date 2020/4/14
@@ -21,5 +24,32 @@ public class EpsProductServiceImpl implements EpsProductService {
     @Override
     public List<EpsProductInfoPo> findAllEpsProduct() {
         return epsProductDao.findAllEpsProduct();
+    }
+
+    /**
+     * 根据id修改货物预警值
+     * @param updataPrewarningValueBo
+     * @return
+     */
+    @Override
+    public Integer updateprewarningById(UpdataPrewarningValueBo updataPrewarningValueBo) {
+        Integer rows = epsProductDao.updateprewarningById(updataPrewarningValueBo);
+        String productCountstr = epsProductDao.findProductCountById(updataPrewarningValueBo.getProductId());
+        Double productCount = MyStringUtil.SubStringNumber(productCountstr);
+        UpdataProductStateByIdPo updataProductStateByIdPo = new UpdataProductStateByIdPo();
+       updataProductStateByIdPo.setProductCount(productCount);
+       updataProductStateByIdPo.setProductId(updataPrewarningValueBo.getProductId());
+        epsProductDao.updataProductStateById(updataProductStateByIdPo);
+        epsProductDao.updataProductStateByIdtwo(updataProductStateByIdPo);
+        return rows;
+    }
+    /**
+     * 根据id查询预警值
+     * @param id
+     * @return
+     */
+    @Override
+    public Integer findEpsPrewarningById(Long id) {
+        return epsProductDao.findEpsPrewarningById(id);
     }
 }

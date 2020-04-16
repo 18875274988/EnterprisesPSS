@@ -38,7 +38,6 @@
         insert into finance values (null ,#{orderId} ,#{amount} ,#{name} ,#{tel} ,#{no}, 0,0,now(),null)
     </insert>
     <select id="findSumPriceById" resultType="java.lang.Double">
-        SELECT SUM(product_purchase_price) FROM purchase_order_info WHERE purchase_order_id=#{id}
+        SELECT SUM(product_purchase_price*product_count) FROM purchase_order_info WHERE supplier_name=#{name}
     </select>
-
 </mapper>

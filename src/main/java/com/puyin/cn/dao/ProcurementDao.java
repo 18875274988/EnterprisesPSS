@@ -1,6 +1,7 @@
 package com.puyin.cn.dao;
 
 import com.puyin.cn.BO.PurchaseProductBo;
+import com.puyin.cn.BO.UpdataPrewarningValueBo;
 import com.puyin.cn.entity.FinancePo;
 import com.puyin.cn.entity.PurchaseOrderPo;
 import com.puyin.cn.entity.PurchaseProductInfoPo;
@@ -90,8 +91,8 @@ public interface ProcurementDao {
 
     /**
      * 根据商品id求价格和
-     * @param id
+     * @param name
      * @return
      */
-    Double findSumPriceById(Integer id);
+    Double findSumPriceById(String name);
 }

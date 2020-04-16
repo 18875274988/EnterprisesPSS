@@ -6,6 +6,7 @@ import com.puyin.cn.dao.ProcurementDao;
 import com.puyin.cn.entity.FinancePo;
 import com.puyin.cn.entity.PurchaseProductInfoPo;
 import com.puyin.cn.service.PurchaseService;
+import com.puyin.cn.util.MyStringUtil;
 import com.puyin.cn.vo.PurchaseVo;
 import com.puyin.cn.vo.StockoutPurchaseVo;
 import org.springframework.beans.BeanUtils;
@@ -40,7 +41,17 @@ public class PurchaseServiceImpl implements PurchaseService {
      */
     @Override
     public int insertPurchasePriceById(PurchaseSubmitBo purchaseSubmitBo) {
+        boolean checkClientNOresult = MyStringUtil.checkClientNO(purchaseSubmitBo.getSupplierNo());
+        boolean checkClientTelresult = MyStringUtil.checkClientTel(purchaseSubmitBo.getSupplierTel());
+        if (checkClientNOresult && checkClientTelresult){
+        }else{
+            return -2;
+        }
         List<PurchaseProductBo> purchaseProductList = purchaseSubmitBo.getPurchaseProductList();
+        if(purchaseProductList.size()==0){
+            //防止下标越界
+            return -3;
+        }
         Integer purchaseOrderId = purchaseProductList.get(0).getPurchaseOrderId();
         int rows=0;
         PurchaseProductInfoPo purchaseProductInfoPo = new PurchaseProductInfoPo();
@@ -53,7 +64,7 @@ public class PurchaseServiceImpl implements PurchaseService {
         }
         //生成来料付款单
         FinancePo financePo = new FinancePo();
-        financePo.setAmount(procurementDao.findSumPriceById(purchaseOrderId));
+        financePo.setAmount(procurementDao.findSumPriceById(purchaseSubmitBo.getSupplierName()));
         financePo.setName(purchaseSubmitBo.getSupplierName());
         financePo.setOrderId(purchaseOrderId);
         financePo.setNo(purchaseSubmitBo.getSupplierNo());

@@ -1,6 +1,9 @@
 package com.puyin.cn.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+
+import java.util.Date;
 
 /**
  * 描述：收付款信息
@@ -10,6 +13,11 @@ import lombok.Data;
  **/
 @Data
 public class FinancePo {
+    /**
+     * 单子id
+     *
+     */
+    private Long id;
     /**
      * 收付款来源id
      */
@@ -30,4 +38,9 @@ public class FinancePo {
      * 收付款人身份证号
      */
     private String no;
+    /**
+     * 开始时间
+     */
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
+    private Date startTime;
 }
