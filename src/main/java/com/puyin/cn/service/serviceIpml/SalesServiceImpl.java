@@ -143,6 +143,17 @@ public class SalesServiceImpl implements SalesService {
             procurementDao.insetPurchaseOrderProduct(purchaseOrderProductPos);
         }
         //4.将不缺货商品生成商品出库单
+        if(productNoStockoutList.size()!=0){
+            //4.1生成出库单编号
+            String warehouseNo = "EPSWO"+MyStringUtil.getTimeToString();
+            procurementDao.AddOutboundOrder(warehouseNo);
+            Long warehouseId = procurementDao.findNOBywarehouseId(warehouseNo);
+            for (CommodityStocksPo commodityStocksPo : productNoStockoutList) {
+                String productName = salesDao.findProductNameById(commodityStocksPo.getId());
+                String productCount = commodityStocksPo.getProductCount();
+                procurementDao.addOutboundOrderInfo(productName,productCount,warehouseId);
+            }
+        }
         //5.生成订单,订单状态分为有缺货商品和无缺货商品两种状态
         if (productStockoutList.size()>=1){
             result=1;

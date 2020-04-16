@@ -39,4 +39,11 @@ public interface PurchaseService {
      */
     List<StockoutPurchaseVo> findAllStockoutPurchase(String purchaseSellName);
 
+    /**
+     * 生成商品入库单
+     * @param purchaseOrderId
+     * @return
+     */
+    int addWarehouseOrder(Long purchaseOrderId);
+
 }

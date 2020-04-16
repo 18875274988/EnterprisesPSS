@@ -2,10 +2,7 @@ package com.puyin.cn.dao;
 
 import com.puyin.cn.BO.PurchaseProductBo;
 import com.puyin.cn.BO.UpdataPrewarningValueBo;
-import com.puyin.cn.entity.FinancePo;
-import com.puyin.cn.entity.PurchaseOrderPo;
-import com.puyin.cn.entity.PurchaseProductInfoPo;
-import com.puyin.cn.entity.purchaseOrderProductPo;
+import com.puyin.cn.entity.*;
 import com.puyin.cn.vo.PurchaseVo;
 import com.puyin.cn.vo.StockoutPurchaseVo;
 import org.apache.ibatis.annotations.Param;
@@ -67,7 +64,7 @@ public interface ProcurementDao {
      * @param purchaseOrderId
      * @return
      */
-    List<Double> findPurchasePriceById(Integer purchaseOrderId);
+    List<Long> findPurchasePriceById(Integer purchaseOrderId);
 
     /**
      * 采购完成调用
@@ -95,4 +92,53 @@ public interface ProcurementDao {
      * @return
      */
     Double findSumPriceById(String name);
+
+    /**
+     * 生成出库单
+     * @param warehouseNo
+     * @return
+     */
+    int AddOutboundOrder(String warehouseNo);
+    /**
+     * 根据出库单编导查询id
+     * @param warehouseNo
+     * @return
+     */
+    Long findNOBywarehouseId(String warehouseNo);
+
+    /**
+     * 生成出库单详情页
+     * @param productName
+     * @param productCount
+     * @param id
+     * @return
+     */
+    int addOutboundOrderInfo(@Param("productName") String productName,@Param("productCount") String productCount,@Param("id") Long id);
+
+    /**
+     * 生成商品入库单
+     * @param warehouseNo
+     * @return
+     */
+    int addWarehouseOrder(String warehouseNo);
+
+    /**
+     * 根据编号查入库单id
+     * @param warehouseNo
+     * @return
+     */
+    Long findWarehouseOrderIdByNo(String warehouseNo);
+    /**
+     * 插入入库单详情页
+     * @param warehouseOrderInfoPo
+     * @return
+     */
+    int insertWarehouseProduct(WarehouseOrderInfoPo warehouseOrderInfoPo);
+
+    /**
+     * 根据id查询采购货物信息
+     * @param id
+     * @return
+     */
+    List<PurchaseOrderByIdPo> findAllPurchaseById(Long id);
 }

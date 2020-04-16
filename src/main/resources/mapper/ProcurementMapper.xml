@@ -40,4 +40,26 @@
     <select id="findSumPriceById" resultType="java.lang.Double">
         SELECT SUM(product_purchase_price*product_count) FROM purchase_order_info WHERE supplier_name=#{name}
     </select>
+    <insert id="AddOutboundOrder">
+      insert into  warehouse_order values (null ,#{warehouseNo} ,1,now(),0)
+    </insert>
+    <select id="findNOBywarehouseId" resultType="java.lang.Long">
+        select warehouse_id from warehouse_order where warehouse_no=#{warehouseNo}
+    </select>
+    <insert id="addOutboundOrderInfo">
+        insert into warehouse_order_info values (#{id} ,#{productName} ,null,#{productCount} ,null )
+    </insert>
+    <insert id="addWarehouseOrder">
+      INSERT INTO  warehouse_order VALUES(null,#{warehouseNo} ,0,NOW(),1)
+    </insert>
+    <select id="findWarehouseOrderIdByNo" resultType="java.lang.Long">
+        select warehouse_id from warehouse_order where warehouse_no=#{warehouseNo}
+    </select>
+    <insert id="insertWarehouseProduct">
+         insert into warehouse_order_info values (#{warehouseId},#{productName},#{productPurchasePrice},#{productCount},#{supplierInfo})
+    </insert>
+    <select id="findAllPurchaseById" resultType="com.puyin.cn.entity.PurchaseOrderByIdPo">
+        select * from purchase_order_info
+    </select>
+
 </mapper>

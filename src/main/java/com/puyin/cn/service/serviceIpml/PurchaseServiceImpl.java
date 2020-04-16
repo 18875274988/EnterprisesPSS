@@ -4,7 +4,9 @@ import com.puyin.cn.BO.PurchaseProductBo;
 import com.puyin.cn.BO.PurchaseSubmitBo;
 import com.puyin.cn.dao.ProcurementDao;
 import com.puyin.cn.entity.FinancePo;
+import com.puyin.cn.entity.PurchaseOrderByIdPo;
 import com.puyin.cn.entity.PurchaseProductInfoPo;
+import com.puyin.cn.entity.WarehouseOrderInfoPo;
 import com.puyin.cn.service.PurchaseService;
 import com.puyin.cn.util.MyStringUtil;
 import com.puyin.cn.vo.PurchaseVo;
@@ -35,7 +37,7 @@ public class PurchaseServiceImpl implements PurchaseService {
         return procurementDao.findPurchaseById(purchaseOrderId);
     }
     /**
-     * 根据id插入采购价格价格
+     * 采购任务
      * @param purchaseSubmitBo
      * @return
      */
@@ -71,9 +73,11 @@ public class PurchaseServiceImpl implements PurchaseService {
         financePo.setTel(purchaseSubmitBo.getSupplierTel());
         procurementDao.insertFinance(financePo);
         //查询是否采购完成
-        List<Double> purchasePriceByIdList = procurementDao.findPurchasePriceById(purchaseOrderId);
+        List<Long> purchasePriceByIdList = procurementDao.findPurchasePriceById(purchaseOrderId);
         if(purchasePriceByIdList.size()==0){
             procurementDao.purchaseOrderAccomplish(purchaseOrderId);
+            //生成入库单
+            addWarehouseOrder(purchaseOrderId.longValue());
         }
         return rows;
     }
@@ -84,5 +88,31 @@ public class PurchaseServiceImpl implements PurchaseService {
     @Override
     public List<StockoutPurchaseVo> findAllStockoutPurchase(String purchaseSellName) {
         return procurementDao.findAllStockoutPurchase(purchaseSellName);
+    }
+
+    /**
+     * 生成商品入库单
+     * @param purchaseOrderId
+     * @return
+     */
+    @Override
+    public int addWarehouseOrder(Long purchaseOrderId) {
+        //生成入库单编号
+        String warehouseNo = "EPSWE"+MyStringUtil.getTimeToString();
+        procurementDao.addWarehouseOrder(warehouseNo);
+        Long warehouseOrderId = procurementDao.findWarehouseOrderIdByNo(warehouseNo);
+        List<PurchaseOrderByIdPo> allPurchaseById = procurementDao.findAllPurchaseById(warehouseOrderId);
+        for (PurchaseOrderByIdPo purchaseOrderByIdPo : allPurchaseById) {
+            WarehouseOrderInfoPo warehouseOrderInfoPo = new WarehouseOrderInfoPo();
+            warehouseOrderInfoPo.setWarehouseId(warehouseOrderId);
+            //供应商信息
+            String supplierInfo = "Name:"+purchaseOrderByIdPo.getSupplierName() +"Tel:"+ purchaseOrderByIdPo.getSupplierTel() + "No:"+purchaseOrderByIdPo.getSupplierNo();
+            warehouseOrderInfoPo.setSupplierInfo(supplierInfo);
+            warehouseOrderInfoPo.setProductPurchasePrice(purchaseOrderByIdPo.getProductPurchasePrice());
+            warehouseOrderInfoPo.setProductName(purchaseOrderByIdPo.getProductName());
+            warehouseOrderInfoPo.setProductCount(purchaseOrderByIdPo.getProductCount());
+            procurementDao.insertWarehouseProduct(warehouseOrderInfoPo);
+        }
+        return 0;
     }
 }
