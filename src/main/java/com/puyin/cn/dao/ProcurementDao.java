@@ -146,5 +146,5 @@ public interface ProcurementDao {
     * @param warehouseState
      * @return
      */
-    int updatewarehouse(Integer warehouseState,Long warehouseId);
+    int updatewarehouse(Integer warehouseState,Integer warehouseIds);
 }

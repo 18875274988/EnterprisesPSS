@@ -62,7 +62,7 @@
         select * from purchase_order_info where purchase_order_id=#{id}
     </select>
     <update id="updatewarehouse">
-        update warehouse_order set warehouse_type=1,warehouse_state=#{warehouseState} where warehouse_id=#{warehouseId}
+        update warehouse_order set warehouse_type=1,warehouse_state=#{warehouseState}where warehouse_id=#{warehouseId}
     </update>
 
 </mapper>
