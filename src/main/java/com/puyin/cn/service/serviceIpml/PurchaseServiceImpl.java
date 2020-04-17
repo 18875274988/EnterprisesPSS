@@ -76,6 +76,9 @@ public class PurchaseServiceImpl implements PurchaseService {
         List<Long> purchasePriceByIdList = procurementDao.findPurchasePriceById(purchaseOrderId);
         if(purchasePriceByIdList.size()==0){
             procurementDao.purchaseOrderAccomplish(purchaseOrderId);
+            //采购完成修改缺货订单状态
+            String orderOnByPurchaseId = procurementDao.findOrderOnByPurchaseId(purchaseOrderId);
+            procurementDao.updateSellOrderState(orderOnByPurchaseId);
             //生成入库单
             addWarehouseOrder(purchaseOrderId.longValue());
         }

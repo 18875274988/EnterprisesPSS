@@ -61,5 +61,11 @@
     <select id="findAllPurchaseById" resultType="com.puyin.cn.entity.PurchaseOrderByIdPo">
         select * from purchase_order_info where purchase_order_id=#{id}
     </select>
+    <select id="findOrderOnByPurchaseId" resultType="java.lang.String">
+        select order_no from purchase_order where purchase_order_id=#{purchaseOrderId}
+    </select>
+    <update id="updateSellOrderState">
+        update eps_sell_order set order_state=0 where order_no=#{orderNo}
+    </update>
 
 </mapper>
