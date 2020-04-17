@@ -2,6 +2,7 @@ package com.puyin.cn.controller;
 
 import com.puyin.cn.BO.UpdataPrewarningValueBo;
 import com.puyin.cn.entity.EpsProductInfoPo;
+import com.puyin.cn.entity.Inbound;
 import com.puyin.cn.service.EpsProductService;
 import com.puyin.cn.vo.PermissionVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,5 +54,13 @@ public class EpsProductController {
         }else{
             return epsPrewarningById;
         }
+    }
+    /**
+     * 查询所有入库单
+     * @return
+     */
+    @RequestMapping("findAllInbound")
+    public List<Inbound> findAllInbound(){
+        return epsProductService.findAllInbound();
     }
 }

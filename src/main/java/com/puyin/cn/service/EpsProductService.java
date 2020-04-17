@@ -2,6 +2,7 @@ package com.puyin.cn.service;
 
 import com.puyin.cn.BO.UpdataPrewarningValueBo;
 import com.puyin.cn.entity.EpsProductInfoPo;
+import com.puyin.cn.entity.Inbound;
 
 import java.util.List;
 
@@ -30,4 +31,9 @@ public interface EpsProductService {
      * @return
      */
     Integer findEpsPrewarningById(Long id);
+    /**
+     * 查询所有库单
+     * @return
+     */
+    List<Inbound> findAllInbound();
 }

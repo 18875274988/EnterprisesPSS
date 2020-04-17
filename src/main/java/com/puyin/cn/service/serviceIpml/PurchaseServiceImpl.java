@@ -15,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.net.PortUnreachableException;
 import java.util.List;
 
 /**
@@ -76,10 +77,7 @@ public class PurchaseServiceImpl implements PurchaseService {
         List<Long> purchasePriceByIdList = procurementDao.findPurchasePriceById(purchaseOrderId);
         if(purchasePriceByIdList.size()==0){
             procurementDao.purchaseOrderAccomplish(purchaseOrderId);
-            //采购完成修改缺货订单状态
-            String orderOnByPurchaseId = procurementDao.findOrderOnByPurchaseId(purchaseOrderId);
-            procurementDao.updateSellOrderState(orderOnByPurchaseId);
-            //生成入库单
+            //生成入库单和待出库单
             addWarehouseOrder(purchaseOrderId.longValue());
         }
         return rows;
@@ -114,6 +112,24 @@ public class PurchaseServiceImpl implements PurchaseService {
             warehouseOrderInfoPo.setProductPurchasePrice(purchaseOrderByIdPo.getProductPurchasePrice());
             warehouseOrderInfoPo.setProductName(purchaseOrderByIdPo.getProductName());
             warehouseOrderInfoPo.setProductCount(purchaseOrderByIdPo.getProductCount());
+            procurementDao.insertWarehouseProduct(warehouseOrderInfoPo);
+        }
+        //生成待出库单
+        //1.生成出库单单号
+        String warehouseNoOut = "EPSWO"+MyStringUtil.getTimeToString();
+        procurementDao.AddOutboundOrder(warehouseNoOut);
+        //2.拿到出库单状态
+        procurementDao.updatewarehouse(warehouseOrderId.intValue(),warehouseOrderId.intValue());
+        //3.生成待出库单详情
+        List<PurchaseOrderByIdPo> allPurchaseById1 = procurementDao.findAllPurchaseById(warehouseOrderId);
+        for (PurchaseOrderByIdPo purchaseOrderByIdPo : allPurchaseById1) {
+            WarehouseOrderInfoPo warehouseOrderInfoPo = new WarehouseOrderInfoPo();
+            warehouseOrderInfoPo.setWarehouseId(purchaseOrderByIdPo.getPurchaseOrderId().longValue());
+            warehouseOrderInfoPo.setProductName(purchaseOrderByIdPo.getProductName());
+            warehouseOrderInfoPo.setProductCount(purchaseOrderByIdPo.getProductCount());
+            warehouseOrderInfoPo.setProductPurchasePrice(purchaseOrderByIdPo.getProductPurchasePrice());
+            String supplierInfo = "Name:"+purchaseOrderByIdPo.getSupplierName() +"Tel:"+ purchaseOrderByIdPo.getSupplierTel() + "No:"+purchaseOrderByIdPo.getSupplierNo();
+            warehouseOrderInfoPo.setSupplierInfo(supplierInfo);
             procurementDao.insertWarehouseProduct(warehouseOrderInfoPo);
         }
         return 0;
