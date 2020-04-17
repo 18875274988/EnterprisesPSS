@@ -101,7 +101,7 @@ public class PurchaseServiceImpl implements PurchaseService {
         String warehouseNo = "EPSWE"+MyStringUtil.getTimeToString();
         procurementDao.addWarehouseOrder(warehouseNo);
         Long warehouseOrderId = procurementDao.findWarehouseOrderIdByNo(warehouseNo);
-        List<PurchaseOrderByIdPo> allPurchaseById = procurementDao.findAllPurchaseById(warehouseOrderId);
+        List<PurchaseOrderByIdPo> allPurchaseById = procurementDao.findAllPurchaseById(purchaseOrderId);
         for (PurchaseOrderByIdPo purchaseOrderByIdPo : allPurchaseById) {
             WarehouseOrderInfoPo warehouseOrderInfoPo = new WarehouseOrderInfoPo();
             warehouseOrderInfoPo.setWarehouseId(warehouseOrderId);

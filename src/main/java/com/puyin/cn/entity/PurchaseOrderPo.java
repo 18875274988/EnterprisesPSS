@@ -38,4 +38,8 @@ public class PurchaseOrderPo {
      * 采购单状态
      */
     private Integer purchaseOrderState;
+    /**
+     * 订单编号
+     */
+    private String orderNo;
 }
