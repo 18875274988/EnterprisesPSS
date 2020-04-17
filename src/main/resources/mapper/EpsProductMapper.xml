@@ -19,4 +19,7 @@
     <update id="updataProductStateByIdtwo">
          UPDATE eps_product_info SET product_state=0 WHERE id=#{productId} AND #{productCount} &gt;prewarning_value ;
     </update>
+    <select id="findAllInbound" resultType="com.puyin.cn.entity.Inbound">
+        select warehouse_id,warehouse_no,warehouse_type,warehouse_startTime from warehouse_order
+    </select>
 </mapper>

@@ -76,8 +76,9 @@ public class PurchaseServiceImpl implements PurchaseService {
         List<Long> purchasePriceByIdList = procurementDao.findPurchasePriceById(purchaseOrderId);
         if(purchasePriceByIdList.size()==0){
             procurementDao.purchaseOrderAccomplish(purchaseOrderId);
-            //生成入库单
+            //生成入库单和待出库单
             addWarehouseOrder(purchaseOrderId.longValue());
+
         }
         return rows;
     }
@@ -113,6 +114,14 @@ public class PurchaseServiceImpl implements PurchaseService {
             warehouseOrderInfoPo.setProductCount(purchaseOrderByIdPo.getProductCount());
             procurementDao.insertWarehouseProduct(warehouseOrderInfoPo);
         }
+        //生成待出库单
+        //1.生成出库单单号
+        String warehouseNoOut = MyStringUtil.getTimeToString();
+        procurementDao.AddOutboundOrder(warehouseNoOut);
+        //2.拿到出库单状态
+        procurementDao.updatewarehouse(warehouseOrderId.intValue());
+        //3.生成待出库单详情
+
         return 0;
     }
 }

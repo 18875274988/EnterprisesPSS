@@ -141,4 +141,10 @@ public interface ProcurementDao {
      * @return
      */
     List<PurchaseOrderByIdPo> findAllPurchaseById(Long id);
+    /**
+     * 根据id修改订单状态
+    * @param warehouseState
+     * @return
+     */
+    int updatewarehouse(Integer warehouseState,Long warehouseId);
 }

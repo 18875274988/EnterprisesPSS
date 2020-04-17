@@ -2,6 +2,7 @@ package com.puyin.cn.dao;
 
 import com.puyin.cn.BO.UpdataPrewarningValueBo;
 import com.puyin.cn.entity.EpsProductInfoPo;
+import com.puyin.cn.entity.Inbound;
 import com.puyin.cn.entity.UpdataProductStateByIdPo;
 import org.springframework.stereotype.Repository;
 
@@ -54,4 +55,9 @@ public interface EpsProductDao {
      */
     Integer findEpsPrewarningById(Long id);
 
+    /**
+     * 查询所有库单
+     * @return
+     */
+    List<Inbound> findAllInbound();
 }

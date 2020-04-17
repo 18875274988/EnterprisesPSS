@@ -61,5 +61,8 @@
     <select id="findAllPurchaseById" resultType="com.puyin.cn.entity.PurchaseOrderByIdPo">
         select * from purchase_order_info
     </select>
+    <update id="updatewarehouse">
+        update warehouse_order set warehouse_type=1,warehouse_state=#{warehouseState} where warehouse_id=#{warehouseId}
+    </update>
 
 </mapper>

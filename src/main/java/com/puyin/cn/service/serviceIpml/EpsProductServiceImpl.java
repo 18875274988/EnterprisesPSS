@@ -3,6 +3,7 @@ package com.puyin.cn.service.serviceIpml;
 import com.puyin.cn.BO.UpdataPrewarningValueBo;
 import com.puyin.cn.dao.EpsProductDao;
 import com.puyin.cn.entity.EpsProductInfoPo;
+import com.puyin.cn.entity.Inbound;
 import com.puyin.cn.entity.UpdataProductStateByIdPo;
 import com.puyin.cn.service.EpsProductService;
 import com.puyin.cn.util.MyStringUtil;
@@ -51,5 +52,13 @@ public class EpsProductServiceImpl implements EpsProductService {
     @Override
     public Integer findEpsPrewarningById(Long id) {
         return epsProductDao.findEpsPrewarningById(id);
+    }
+    /**
+     * 查询所有库单
+     * @return
+     */
+    @Override
+    public List<Inbound> findAllInbound() {
+        return epsProductDao.findAllInbound();
     }
 }
