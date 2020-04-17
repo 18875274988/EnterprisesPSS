@@ -160,6 +160,7 @@ public class SalesServiceImpl implements SalesService {
         //5.生成订单,订单状态分为有缺货商品和无缺货商品两种状态
         if(productStockoutList.size()==0){
             //不缺货状态
+            
         }else {
             //缺货状态
         }

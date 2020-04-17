@@ -74,6 +74,20 @@ public interface ProcurementDao {
     int purchaseOrderAccomplish(Integer purchaseOrderId);
 
     /**
+     * 根据采购id查询对应订单编号
+     * @param purchaseOrderId
+     * @return
+     */
+    String findOrderOnByPurchaseId(Integer purchaseOrderId);
+
+    /**
+     * 采购完成修改订单状态
+     * @param orderNo
+     * @return
+     */
+    int updateSellOrderState(String orderNo);
+
+    /**
      * 查询采购单状态
      * @return
      */
