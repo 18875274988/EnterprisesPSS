@@ -73,6 +73,8 @@ public class SalesServiceImpl implements SalesService {
     public int findProductCount(SubmitOrderBo submitOrderBo) {
         int result=0;
         List<TemporaryPo> productList = submitOrderBo.getProductList();
+        //生成订单编号
+        String orderNo="EPSS"+MyStringUtil.getTimeToString();
         //1.提取提交货物id集合
         ArrayList<Integer> ids = new ArrayList<>();
         for (TemporaryPo temporaryPo : productList) {
@@ -129,6 +131,7 @@ public class SalesServiceImpl implements SalesService {
             //生成采购单号
             String purchaseOrderNo = "EPS" + MyStringUtil.getTimeToString();
             purchaseOrderPo.setPurchaseOrderNo(purchaseOrderNo);
+            purchaseOrderPo.setOrderNo(orderNo);
             procurementDao.insertPurchaseOrder(purchaseOrderPo);
             Integer purchaseOrderId = procurementDao.selectPurchaseId(purchaseOrderNo);
             ArrayList<purchaseOrderProductPo> purchaseOrderProductPos = new ArrayList<>();
@@ -155,6 +158,11 @@ public class SalesServiceImpl implements SalesService {
             }
         }
         //5.生成订单,订单状态分为有缺货商品和无缺货商品两种状态
+        if(productStockoutList.size()==0){
+            //不缺货状态
+        }else {
+            //缺货状态
+        }
         if (productStockoutList.size()>=1){
             result=1;
         }
