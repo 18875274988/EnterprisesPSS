@@ -34,9 +34,9 @@ public class SalesServiceImpl implements SalesService {
      */
     @Override
     public List<SalesVo> findAllProduct() {
-        List<SalesPO> allProduct = salesDao.findAllProduct();
+        List<SalesOrderProductPO> allProduct = salesDao.findAllProduct();
         ArrayList<SalesVo> list = new ArrayList<>();
-        for (SalesPO salesPO : allProduct) {
+        for (SalesOrderProductPO salesPO : allProduct) {
             SalesVo salesVo = new SalesVo();
             BeanUtils.copyProperties(salesPO,salesVo);
             list.add(salesVo);
@@ -149,7 +149,7 @@ public class SalesServiceImpl implements SalesService {
         if(productNoStockoutList.size()!=0){
             //4.1生成出库单编号
             String warehouseNo = "EPSWO"+MyStringUtil.getTimeToString();
-            procurementDao.AddOutboundOrder(warehouseNo);
+            procurementDao.addOutboundOrder(warehouseNo,0);
             Long warehouseId = procurementDao.findNOBywarehouseId(warehouseNo);
             for (CommodityStocksPo commodityStocksPo : productNoStockoutList) {
                 String productName = salesDao.findProductNameById(commodityStocksPo.getId());
@@ -157,16 +157,76 @@ public class SalesServiceImpl implements SalesService {
                 procurementDao.addOutboundOrderInfo(productName,productCount,warehouseId);
             }
         }
-        //5.生成订单,订单状态分为有缺货商品和无缺货商品两种状态
+        //5.生成订单,订单状态分为有缺货商品和无缺货商品两种状态并生成收款单
         if(productStockoutList.size()==0){
-            //不缺货状态
-            
+            //不缺货状态销售单
+            Long orderId = addOrder(submitOrderBo, 0, orderNo);
+            //生成付款单
+            addReceipt(submitOrderBo,0,orderId);
         }else {
-            //缺货状态
+            //缺货状态销售单
+            Long orderId = addOrder(submitOrderBo, 3, orderNo);
+            //生成付款单
+            addReceipt(submitOrderBo,3,orderId);
         }
         if (productStockoutList.size()>=1){
             result=1;
         }
         return result;
+    }
+
+    /**
+     * 插入销售单
+     * @param submitOrderBo
+     * @return
+     */
+    @Override
+    public Long addOrder(SubmitOrderBo submitOrderBo,int state,String orderNo) {
+        SellOrderPo sellOrderPo = new SellOrderPo();
+        sellOrderPo.setOrderNo(orderNo);
+        sellOrderPo.setOrderState(state);
+        //销售员姓名
+        sellOrderPo.setOrderCreator(submitOrderBo.getProductList().get(0).getAccountName());
+        sellOrderPo.setOrderPrice(submitOrderBo.getTotalPrice());
+        salesDao.addSellOrder(sellOrderPo);
+        //查询销售id(为生成销售单详情做准备)
+        Long idByNo = salesDao.findIdByNo(orderNo);
+        //获取客户信息
+        SellOrderFromInfoPo sellOrderFromInfoPo = new SellOrderFromInfoPo();
+        sellOrderFromInfoPo.setOrderFromName(submitOrderBo.getClientName());
+        sellOrderFromInfoPo.setOrderFromCodeid(submitOrderBo.getClientNo());
+        sellOrderFromInfoPo.setOrderFromId(idByNo);
+        sellOrderFromInfoPo.setOrderFromTel(submitOrderBo.getClientTel());
+        salesDao.addSellOrderFromInfo(sellOrderFromInfoPo);
+        //生成商品详情表
+        List<SellOrderProductInfo> sellOrderProductInfos = new ArrayList<>();
+        List<TemporaryPo> productList = submitOrderBo.getProductList();
+        for (TemporaryPo temporaryPo : productList) {
+            SellOrderProductInfo sellOrderProductInfo = new SellOrderProductInfo();
+            sellOrderProductInfo.setOrderId(idByNo);
+            sellOrderProductInfo.setProductName(temporaryPo.getProductName());
+            sellOrderProductInfo.setProductCount(temporaryPo.getCount());
+            sellOrderProductInfo.setProductPrice(temporaryPo.getProductPrice());
+            sellOrderProductInfos.add(sellOrderProductInfo);
+        }
+        salesDao.addSellOrderProductInfo(sellOrderProductInfos);
+       return idByNo;
+    }
+
+    /**
+     * 生成收款单
+     * @param submitOrderBo
+     * @param state
+     */
+    @Override
+    public void addReceipt(SubmitOrderBo submitOrderBo, int state,Long orderNo) {
+        FinancePo financePo = new FinancePo();
+        financePo.setName(submitOrderBo.getClientName());
+        financePo.setTel(submitOrderBo.getClientTel());
+        financePo.setNo(submitOrderBo.getClientNo());
+        financePo.setState(state);
+        financePo.setOrderId(orderNo);
+        financePo.setAmount(submitOrderBo.getTotalPrice());
+        salesDao.addReceipt(financePo);
     }
 }

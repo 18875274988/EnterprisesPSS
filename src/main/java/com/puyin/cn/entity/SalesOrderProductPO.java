@@ -9,7 +9,7 @@ import lombok.Data;
  * @date 2020/3/30
  **/
 @Data
-public class SalesPO {
+public class SalesOrderProductPO {
     /**
      * 标识符
      */

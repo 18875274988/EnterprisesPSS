@@ -7,6 +7,9 @@ import com.puyin.cn.entity.Inbound;
 import com.puyin.cn.entity.UpdataProductStateByIdPo;
 import com.puyin.cn.service.EpsProductService;
 import com.puyin.cn.util.MyStringUtil;
+import com.puyin.cn.vo.WarehouseEnterVO;
+import com.puyin.cn.vo.WarehouseOutInfo;
+import com.puyin.cn.vo.WarehouseOutVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,5 +63,25 @@ public class EpsProductServiceImpl implements EpsProductService {
     @Override
     public List<Inbound> findAllInbound() {
         return epsProductDao.findAllInbound();
+    }
+
+    @Override
+    public List<WarehouseOutVo> findAllWarehouseOut() {
+        return epsProductDao.findAllWarehouseOut();
+    }
+
+    @Override
+    public List<WarehouseOutInfo> finWarehouseOutInfoById(Long id) {
+        return epsProductDao.finWarehouseOutInfoById(id);
+    }
+
+    @Override
+    public List<WarehouseOutVo> finAllwarehuouseEnter() {
+        return epsProductDao.finAllwarehuouseEnter();
+    }
+
+    @Override
+    public List<WarehouseEnterVO> finWarehouseEnterInfoById(Long id) {
+        return epsProductDao.finWarehouseEnterInfoById(id);
     }
 }

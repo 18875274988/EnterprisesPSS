@@ -40,8 +40,8 @@
     <select id="findSumPriceById" resultType="java.lang.Double">
         SELECT SUM(product_purchase_price*product_count) FROM purchase_order_info WHERE supplier_name=#{name}
     </select>
-    <insert id="AddOutboundOrder">
-      insert into  warehouse_order values (null ,#{warehouseNo} ,1,now(),0)
+    <insert id="addOutboundOrder">
+      insert into  warehouse_order values (null ,#{warehouseNo} ,1,now(),#{state} )
     </insert>
     <select id="findNOBywarehouseId" resultType="java.lang.Long">
         select warehouse_id from warehouse_order where warehouse_no=#{warehouseNo}
@@ -61,8 +61,16 @@
     <select id="findAllPurchaseById" resultType="com.puyin.cn.entity.PurchaseOrderByIdPo">
         select * from purchase_order_info where purchase_order_id=#{id}
     </select>
-    <update id="updatewarehouse">
-        update warehouse_order set warehouse_type=1,warehouse_state=#{warehouseState}where warehouse_id=#{warehouseId}
+    <select id="findOrderOnByPurchaseId" resultType="java.lang.String">
+        select order_no from purchase_order where purchase_order_id=#{purchaseOrderId}
+    </select>
+    <update id="updateSellOrderState">
+        update eps_sell_order set order_state=0 where order_no=#{orderNo}
     </update>
-
+    <select id="findOrderIdByOrderNo" resultType="java.lang.Long">
+        select order_id from eps_sell_order where order_no=#{orderNo}
+    </select>
+    <update id="updateReceiptState">
+        update finance set state=0 where order_id=#{orderId}
+    </update>
 </mapper>

@@ -35,4 +35,21 @@ public interface SalesService {
      * @return
      */
      int findProductCount(SubmitOrderBo submitOrderBo);
+
+    /**
+     * 生成销售单(分为缺货不缺货两种单)
+     * @param submitOrderBo
+     * @param state
+     * @param orderNo
+     */
+     Long addOrder(SubmitOrderBo submitOrderBo,int state,String orderNo);
+
+    /**
+     * 生成收款单
+     * @param submitOrderBo
+     * @param state
+     * @param orderId
+     */
+     void addReceipt(SubmitOrderBo submitOrderBo,int state,Long orderId);
+
 }

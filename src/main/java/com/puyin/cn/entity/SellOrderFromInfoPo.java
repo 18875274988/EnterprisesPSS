@@ -9,7 +9,7 @@ import lombok.Data;
  * @date 2020/4/17
  **/
 @Data
-public class SellOrderFrimInfoPo {
+public class SellOrderFromInfoPo {
     /**
      * 销售单来源id
      */

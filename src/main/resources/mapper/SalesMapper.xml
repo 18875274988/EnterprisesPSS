@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.puyin.cn.dao.SalesDao">
 
-    <select id="findAllProduct" resultType="com.puyin.cn.entity.SalesPO">
+    <select id="findAllProduct" resultType="com.puyin.cn.entity.SalesOrderProductPO">
         select id,product_name,product_count,product_price,product_category from  eps_product_info
     </select>
     <select id="findAllCateGroy" resultType="com.puyin.cn.entity.CategroyPo">
@@ -26,4 +26,22 @@
     <select id="findProductNameById" resultType="java.lang.String">
         select product_name from eps_product_info where id=#{id,jdbcType=INTEGER}
     </select>
+    <insert id="addSellOrder">
+        insert into eps_sell_order values (null,#{orderNo} ,#{orderPrice} ,#{orderCreator} ,now(),#{orderState} )
+    </insert>
+    <select id="findIdByNo" resultType="java.lang.Long">
+        select order_id from eps_sell_order where order_no=#{orderNo}
+    </select>
+    <insert id="addSellOrderFromInfo">
+        insert  into order_from_info values (#{orderFromId} ,#{orderFromName} ,#{orderFromTel} ,#{orderFromId} )
+    </insert>
+    <insert id="addSellOrderProductInfo">
+        insert into order_product_info values
+        <foreach collection="list" index="index" separator=","  item="item">
+            (#{item.orderId} ,#{item.productName} ,#{item.productPrice} ,#{item.productCount} )
+        </foreach>
+    </insert>
+    <insert id="addReceipt">
+        insert into finance values (null ,#{orderId} ,#{amount} ,#{name} ,#{tel} ,#{no}, 1,#{state} ,now(),null )
+    </insert>
 </mapper>

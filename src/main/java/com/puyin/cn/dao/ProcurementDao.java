@@ -110,9 +110,10 @@ public interface ProcurementDao {
     /**
      * 生成出库单
      * @param warehouseNo
+     * @param state
      * @return
      */
-    int AddOutboundOrder(String warehouseNo);
+    int addOutboundOrder(@Param("warehouseNo") String warehouseNo,@Param("state") Integer state);
     /**
      * 根据出库单编导查询id
      * @param warehouseNo
@@ -155,10 +156,18 @@ public interface ProcurementDao {
      * @return
      */
     List<PurchaseOrderByIdPo> findAllPurchaseById(Long id);
+
     /**
-     * 根据id修改订单状态
-    * @param warehouseState
+     *
+     * @param orderId
      * @return
      */
-    int updatewarehouse(Integer warehouseState,Integer warehouseIds);
+    int updateReceiptState(Long orderId);
+
+    /**
+     * 根据销售编号查询销售单id
+     * @param orderNo
+     * @return
+     */
+   Long findOrderIdByOrderNo(String orderNo);
 }

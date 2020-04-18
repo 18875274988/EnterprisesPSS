@@ -3,6 +3,7 @@ package com.puyin.cn.service.serviceIpml;
 import com.puyin.cn.BO.PurchaseProductBo;
 import com.puyin.cn.BO.PurchaseSubmitBo;
 import com.puyin.cn.dao.ProcurementDao;
+import com.puyin.cn.dao.SalesDao;
 import com.puyin.cn.entity.FinancePo;
 import com.puyin.cn.entity.PurchaseOrderByIdPo;
 import com.puyin.cn.entity.PurchaseProductInfoPo;
@@ -67,9 +68,9 @@ public class PurchaseServiceImpl implements PurchaseService {
         }
         //生成来料付款单
         FinancePo financePo = new FinancePo();
-        financePo.setAmount(procurementDao.findSumPriceById(purchaseSubmitBo.getSupplierName()));
+        financePo.setAmount("合计:"+(procurementDao.findSumPriceById(purchaseSubmitBo.getSupplierName())).toString()+"元");
         financePo.setName(purchaseSubmitBo.getSupplierName());
-        financePo.setOrderId(purchaseOrderId);
+        financePo.setOrderId(Long.valueOf(purchaseOrderId));
         financePo.setNo(purchaseSubmitBo.getSupplierNo());
         financePo.setTel(purchaseSubmitBo.getSupplierTel());
         procurementDao.insertFinance(financePo);
@@ -77,6 +78,12 @@ public class PurchaseServiceImpl implements PurchaseService {
         List<Long> purchasePriceByIdList = procurementDao.findPurchasePriceById(purchaseOrderId);
         if(purchasePriceByIdList.size()==0){
             procurementDao.purchaseOrderAccomplish(purchaseOrderId);
+            //采购完成修改缺货销售单状态
+            String orderOnByPurchaseId = procurementDao.findOrderOnByPurchaseId(purchaseOrderId);
+            procurementDao.updateSellOrderState(orderOnByPurchaseId);
+            //采购完成修改收款单状态(先那单销售单id)
+            Long orderIdByOrderNo = procurementDao.findOrderIdByOrderNo(orderOnByPurchaseId);
+            procurementDao.updateReceiptState(orderIdByOrderNo);
             //生成入库单和待出库单
             addWarehouseOrder(purchaseOrderId.longValue());
         }
@@ -117,19 +124,14 @@ public class PurchaseServiceImpl implements PurchaseService {
         //生成待出库单
         //1.生成出库单单号
         String warehouseNoOut = "EPSWO"+MyStringUtil.getTimeToString();
-        procurementDao.AddOutboundOrder(warehouseNoOut);
-        //2.拿到出库单状态
-        procurementDao.updatewarehouse(warehouseOrderId.intValue(),warehouseOrderId.intValue());
-        //3.生成待出库单详情
-        List<PurchaseOrderByIdPo> allPurchaseById1 = procurementDao.findAllPurchaseById(warehouseOrderId);
-        for (PurchaseOrderByIdPo purchaseOrderByIdPo : allPurchaseById1) {
+        procurementDao.addOutboundOrder(warehouseNoOut,warehouseOrderId.intValue());
+        Long warehouseOutOrderId = procurementDao.findWarehouseOrderIdByNo(warehouseNoOut);
+        //2.生成待出库单详情
+        for (PurchaseOrderByIdPo purchaseOrderByIdPo : allPurchaseById) {
             WarehouseOrderInfoPo warehouseOrderInfoPo = new WarehouseOrderInfoPo();
-            warehouseOrderInfoPo.setWarehouseId(purchaseOrderByIdPo.getPurchaseOrderId().longValue());
+            warehouseOrderInfoPo.setWarehouseId(warehouseOutOrderId);
             warehouseOrderInfoPo.setProductName(purchaseOrderByIdPo.getProductName());
             warehouseOrderInfoPo.setProductCount(purchaseOrderByIdPo.getProductCount());
-            warehouseOrderInfoPo.setProductPurchasePrice(purchaseOrderByIdPo.getProductPurchasePrice());
-            String supplierInfo = "Name:"+purchaseOrderByIdPo.getSupplierName() +"Tel:"+ purchaseOrderByIdPo.getSupplierTel() + "No:"+purchaseOrderByIdPo.getSupplierNo();
-            warehouseOrderInfoPo.setSupplierInfo(supplierInfo);
             procurementDao.insertWarehouseProduct(warehouseOrderInfoPo);
         }
         return 0;

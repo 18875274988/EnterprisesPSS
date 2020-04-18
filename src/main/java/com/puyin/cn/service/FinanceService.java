@@ -2,6 +2,7 @@ package com.puyin.cn.service;
 
 import com.puyin.cn.entity.FinancePo;
 import com.puyin.cn.vo.PaymentOrderInfoVo;
+import com.puyin.cn.vo.SellOrderInfoVo;
 
 import java.util.List;
 
@@ -29,4 +30,21 @@ public interface FinanceService {
      * @return
      */
     List<PaymentOrderInfoVo> findPurchaseProductList(Long orderId);
+    /**
+     * 查询所有待收款单
+     * @return
+     */
+    List<FinancePo> findAllReceipt();
+    /**
+     *根据id查询待付款单详情
+     * @param id
+     * @return
+     */
+    List<SellOrderInfoVo> findOrderNoreceipt(Long id);
+    /**
+     * 收款完成调用
+     * @param id
+     * @return
+     */
+    int finishReceiptOrder(Long id);
 }

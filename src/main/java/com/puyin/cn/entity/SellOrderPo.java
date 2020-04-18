@@ -24,9 +24,9 @@ public class SellOrderPo {
     /**
      * 销售单总价
      */
-    private BigDecimal orderPrice;
+    private String orderPrice;
     /**
-     * 销售单来源
+     * 销售单创建人
      */
     private String orderCreator;
     /**
@@ -36,5 +36,5 @@ public class SellOrderPo {
     /**
      * 销售单状态
      */
-    private String orderState;
+    private Integer orderState;
 }

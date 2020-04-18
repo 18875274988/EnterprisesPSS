@@ -4,6 +4,9 @@ import com.puyin.cn.BO.UpdataPrewarningValueBo;
 import com.puyin.cn.entity.EpsProductInfoPo;
 import com.puyin.cn.entity.Inbound;
 import com.puyin.cn.entity.UpdataProductStateByIdPo;
+import com.puyin.cn.vo.WarehouseEnterVO;
+import com.puyin.cn.vo.WarehouseOutInfo;
+import com.puyin.cn.vo.WarehouseOutVo;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -60,4 +63,30 @@ public interface EpsProductDao {
      * @return
      */
     List<Inbound> findAllInbound();
+
+    /**
+     * 查询所有出库单
+     * @return
+     */
+    List<WarehouseOutVo> findAllWarehouseOut();
+
+    /**
+     * 查询出库单详情(根据id)
+     * @param id
+     * @return
+     */
+    List<WarehouseOutInfo> finWarehouseOutInfoById(Long id);
+
+    /**
+     * 查询所有入库单
+     * @return
+     */
+    List<WarehouseOutVo> finAllwarehuouseEnter();
+
+    /**
+     * 查询入库单详情
+     * @param id 入库单id
+     * @return
+     */
+    List<WarehouseEnterVO> finWarehouseEnterInfoById(Long id);
 }

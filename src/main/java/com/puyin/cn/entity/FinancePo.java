@@ -21,7 +21,7 @@ public class FinancePo {
     /**
      * 收付款来源id
      */
-    private Integer orderId;
+    private Long orderId;
     /**
      * 收付款人姓名
      */
@@ -29,7 +29,7 @@ public class FinancePo {
     /**
      * 收付款金额
      */
-    private Double amount;
+    private String amount;
     /**
      * 收付款人电话
      */
@@ -43,4 +43,8 @@ public class FinancePo {
      */
     @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     private Date startTime;
+    /**
+     * 财务单状态
+     */
+    private Integer state;
 }

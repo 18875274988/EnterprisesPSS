@@ -1,9 +1,6 @@
 package com.puyin.cn.dao;
 
-import com.puyin.cn.entity.CategroyPo;
-import com.puyin.cn.entity.CommodityStocksPo;
-import com.puyin.cn.entity.SalesPO;
-import com.puyin.cn.entity.TemporaryPo;
+import com.puyin.cn.entity.*;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -17,7 +14,7 @@ import java.util.List;
  **/
 @Repository
 public interface SalesDao {
-    List<SalesPO> findAllProduct();
+    List<SalesOrderProductPO> findAllProduct();
     List<CategroyPo> findAllCateGroy();
     /**
      * 想临时表插入数据
@@ -42,5 +39,40 @@ public interface SalesDao {
      * @return
      */
     String  findProductNameById(Integer id);
+
+    /**
+     * 生成销售单
+     * @param sellOrderPo
+     * @return
+     */
+    int addSellOrder(SellOrderPo sellOrderPo);
+
+    /**
+     * 根据销售单编号查id
+     * @param orderNo
+     * @return
+     */
+    Long findIdByNo(String orderNo);
+
+    /**
+     * 生成销售单客户详情表
+     * @param sellOrderFromInfoPo
+     * @return
+     */
+    int addSellOrderFromInfo(SellOrderFromInfoPo sellOrderFromInfoPo);
+
+    /**
+     * 插入销售单货物详情
+     * @param list
+     * @return
+     */
+    int addSellOrderProductInfo(@Param("list") List<SellOrderProductInfo> list);
+
+    /**
+     * 生成收款单
+     * @param financePo
+     * @return
+     */
+    int addReceipt(FinancePo financePo);
 
 }

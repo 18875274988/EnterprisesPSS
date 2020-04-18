@@ -10,4 +10,16 @@
     <select id="findPurchaseProductList" resultType="com.puyin.cn.vo.PaymentOrderInfoVo">
         SELECT product_name,product_count,product_purchase_price FROM purchase_order_info WHERE purchase_order_id =#{orderId}
     </select>
+    <update id="addEndTime">
+        update finance set end_time=now() where id=#{id}
+    </update>
+    <select id="findAllReceipt" resultType="com.puyin.cn.entity.FinancePo">
+        select id,order_id,amount,name,tel,no,start_time from finance where classify=1 and state=0
+    </select>
+    <select id="findOrderNoreceipt" resultType="com.puyin.cn.vo.SellOrderInfoVo">
+      select product_name,product_price,product_count from order_product_info where order_id=#{id}
+    </select>
+    <update id="finishReceiptOrder">
+        update finance set state=1 where id=#{id}
+    </update>
 </mapper>

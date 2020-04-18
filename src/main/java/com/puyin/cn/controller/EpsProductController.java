@@ -5,6 +5,9 @@ import com.puyin.cn.entity.EpsProductInfoPo;
 import com.puyin.cn.entity.Inbound;
 import com.puyin.cn.service.EpsProductService;
 import com.puyin.cn.vo.PermissionVo;
+import com.puyin.cn.vo.WarehouseEnterVO;
+import com.puyin.cn.vo.WarehouseOutInfo;
+import com.puyin.cn.vo.WarehouseOutVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -62,5 +65,39 @@ public class EpsProductController {
     @RequestMapping("findAllInbound")
     public List<Inbound> findAllInbound(){
         return epsProductService.findAllInbound();
+    }
+
+    /**
+     * 查询所有出库单
+     * @return
+     */
+    @RequestMapping("findAllWarehouseOut")
+    public List<WarehouseOutVo> findAllWarehouseOut(){
+        return epsProductService.findAllWarehouseOut();
+    }
+    /**
+     * 查询所有出库单详情
+     * @return
+     */
+    @RequestMapping("finWarehouseOutInfoById")
+    public List<WarehouseOutInfo> finWarehouseOutInfoById(Long id){
+        return epsProductService.finWarehouseOutInfoById(id);
+    }
+    /**
+     * 查询所有入库单
+     * @return
+     */
+    @RequestMapping("finAllwarehuouseEnter")
+    public List<WarehouseOutVo> finAllwarehuouseEnter(){
+        return epsProductService.finAllwarehuouseEnter();
+
+    }
+    /**
+     * 查询所有入库单详情
+     * @return
+     */
+    @RequestMapping("finWarehouseEnterInfoById")
+    public List<WarehouseEnterVO> finWarehouseEnterInfoById(Long id){
+        return  epsProductService.finWarehouseEnterInfoById(id);
     }
 }

@@ -3,6 +3,7 @@ package com.puyin.cn.controller;
 import com.puyin.cn.entity.FinancePo;
 import com.puyin.cn.service.FinanceService;
 import com.puyin.cn.vo.PaymentOrderInfoVo;
+import com.puyin.cn.vo.SellOrderInfoVo;
 import org.hibernate.validator.constraints.EAN;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,5 +48,34 @@ public class FinanceController {
     @RequestMapping("findPurchaseProductList")
     public List<PaymentOrderInfoVo> findPurchaseProductList(Long orderId){
         return financeService.findPurchaseProductList(orderId);
+    }
+
+    /**
+     * 付款单
+     * @return
+     */
+    @RequestMapping("findAllReceipt")
+    public List<FinancePo> findAllReceipt(){
+        return financeService.findAllReceipt();
+    }
+
+    /**
+     * 查询付款单详情页
+     * @param id
+     * @return
+     */
+    @RequestMapping("findOrderNoreceipt")
+    public List<SellOrderInfoVo> findOrderNoreceipt(Long id){
+       return financeService.findOrderNoreceipt(id);
+    }
+
+    /**
+     * 收款完成调用
+     * @param id
+     * @return
+     */
+    @RequestMapping("finishReceiptOrder")
+    public int  finishReceiptOrder(Long id){
+    return     financeService.finishReceiptOrder(id);
     }
 }

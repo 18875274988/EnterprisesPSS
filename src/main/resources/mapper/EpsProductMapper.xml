@@ -22,4 +22,16 @@
     <select id="findAllInbound" resultType="com.puyin.cn.entity.Inbound">
         select warehouse_id,warehouse_no,warehouse_type,warehouse_startTime from warehouse_order
     </select>
+    <select id="findAllWarehouseOut" resultType="com.puyin.cn.vo.WarehouseOutVo">
+        select warehouse_id,warehouse_no,warehouse_starttime from warehouse_order where warehouse_type=1 and warehouse_state=0
+    </select>
+    <select id="finWarehouseOutInfoById" resultType="com.puyin.cn.vo.WarehouseOutInfo">
+        select product_name,product_count from warehouse_order_info where warehouse_id=#{id}
+    </select>
+    <select id="finAllwarehuouseEnter" resultType="com.puyin.cn.vo.WarehouseOutVo">
+       select warehouse_id,warehouse_no,warehouse_starttime from warehouse_order where warehouse_type=0 and warehouse_state=0
+    </select>
+    <select id="finWarehouseEnterInfoById" resultType="com.puyin.cn.vo.WarehouseEnterVO">
+        select * from warehouse_order_info where warehouse_id=#{id}
+    </select>
 </mapper>
