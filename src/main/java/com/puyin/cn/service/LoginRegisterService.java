@@ -2,6 +2,7 @@ package com.puyin.cn.service;
 
 import com.puyin.cn.BO.LoginRegisterBo;
 import com.puyin.cn.BO.RegisterBo;
+import com.puyin.cn.BO.UpdatePassWordBo;
 import com.puyin.cn.entity.UserPo;
 import com.puyin.cn.vo.LoginRegisterVo;
 
@@ -17,4 +18,11 @@ public interface LoginRegisterService {
     LoginRegisterVo findUser(LoginRegisterBo loginRegisterBo);
     LoginRegisterVo insertUser(RegisterBo registerBo);
     LoginRegisterVo finduserByusername(String username);
+
+    /**
+     * 修改密码
+     * @param updatePassWordBo
+     * @return
+     */
+    int UpdatePassWord(UpdatePassWordBo updatePassWordBo);
 }

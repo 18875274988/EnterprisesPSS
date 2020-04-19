@@ -22,4 +22,10 @@
     <update id="finishReceiptOrder">
         update finance set state=1 where id=#{id}
     </update>
+    <update id="updateSellOrderState">
+        update eps_sell_order set order_state=1 where order_id=#{id}
+    </update>
+    <select id="findSellOrderIdByFinanceId" resultType="java.lang.Long">
+        select order_id from finance where id=#{id}
+    </select>
 </mapper>

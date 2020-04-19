@@ -1,6 +1,8 @@
 package com.puyin.cn.controller;
 
+import com.puyin.cn.BO.AddProductBo;
 import com.puyin.cn.BO.UpdataPrewarningValueBo;
+import com.puyin.cn.dao.EpsProductDao;
 import com.puyin.cn.entity.EpsProductInfoPo;
 import com.puyin.cn.entity.Inbound;
 import com.puyin.cn.service.EpsProductService;
@@ -50,10 +52,10 @@ public class EpsProductController {
      * @return
      */
     @RequestMapping("findEpsPrewarningById")
-    public Integer findEpsPrewarningById(Long productId){
-        Integer epsPrewarningById = epsProductService.findEpsPrewarningById(productId);
+    public Double findEpsPrewarningById(Long productId){
+        Double epsPrewarningById = epsProductService.findEpsPrewarningById(productId);
         if(epsPrewarningById==null){
-            return 0;
+            return 0.0;
         }else{
             return epsPrewarningById;
         }
@@ -99,5 +101,43 @@ public class EpsProductController {
     @RequestMapping("finWarehouseEnterInfoById")
     public List<WarehouseEnterVO> finWarehouseEnterInfoById(Long id){
         return  epsProductService.finWarehouseEnterInfoById(id);
+    }
+    /**
+     * 确定入库
+     * @param warehouseEnterVO
+     * @return
+     */
+   @RequestMapping("PutInStorge")
+   public int PutInStorge(WarehouseEnterVO warehouseEnterVO){
+       epsProductService.PutInStorge(warehouseEnterVO);
+       return 0;
+   }
+    /**
+     * 确定出库库
+     * @param warehouseOutInfo
+     * @return
+     */
+    @RequestMapping("PutOutStorge")
+    public int PutOutStorge(WarehouseOutInfo warehouseOutInfo){
+        epsProductService.PutOutStorge(warehouseOutInfo);
+        return 0;
+    }
+    @RequestMapping("addProduct")
+    public int addProduct(AddProductBo addProductBo){
+        return epsProductService.addProductToStager(addProductBo);
+    }
+
+    /**
+     * 添加类名
+     * @param categoryName
+     * @return
+     */
+    @RequestMapping("addCategoryName")
+    public int addCategoryName(String categoryName){
+        if (categoryName.isEmpty()){
+            return 0;
+        }else {
+            return epsProductService.addCategoryName(categoryName);
+        }
     }
 }

@@ -8,16 +8,16 @@
         update eps_product_info set prewarning_value =#{prewarningValue}  where id=#{productId};
     </update>
     <update id="updataProductStateById">
-        UPDATE eps_product_info SET product_state=1 WHERE id=#{productId} AND #{productCount} &lt;prewarning_value ;
+        UPDATE eps_product_info SET product_state=1 WHERE id=#{productId} ;
     </update>
     <select id="findProductCountById" resultType="java.lang.String">
         select product_count from eps_product_info where id=#{id}
     </select>
-    <select id="findEpsPrewarningById" resultType="java.lang.Integer">
+    <select id="findEpsPrewarningById" resultType="java.lang.Double">
         select  prewarning_value from eps_product_info where id=#{id}
     </select>
     <update id="updataProductStateByIdtwo">
-         UPDATE eps_product_info SET product_state=0 WHERE id=#{productId} AND #{productCount} &gt;prewarning_value ;
+         UPDATE eps_product_info SET product_state=0 WHERE id=#{productId} ;
     </update>
     <select id="findAllInbound" resultType="com.puyin.cn.entity.Inbound">
         select warehouse_id,warehouse_no,warehouse_type,warehouse_startTime from warehouse_order
@@ -26,7 +26,7 @@
         select warehouse_id,warehouse_no,warehouse_starttime from warehouse_order where warehouse_type=1 and warehouse_state=0
     </select>
     <select id="finWarehouseOutInfoById" resultType="com.puyin.cn.vo.WarehouseOutInfo">
-        select product_name,product_count from warehouse_order_info where warehouse_id=#{id}
+        select product_name,product_count,warehouse_id from warehouse_order_info where warehouse_id=#{id}
     </select>
     <select id="finAllwarehuouseEnter" resultType="com.puyin.cn.vo.WarehouseOutVo">
        select warehouse_id,warehouse_no,warehouse_starttime from warehouse_order where warehouse_type=0 and warehouse_state=0
@@ -34,4 +34,33 @@
     <select id="finWarehouseEnterInfoById" resultType="com.puyin.cn.vo.WarehouseEnterVO">
         select * from warehouse_order_info where warehouse_id=#{id}
     </select>
+    <select id="findProductCountByName" resultType="java.lang.String">
+        select product_count from eps_product_info where product_name=#{productName}
+    </select>
+    <update id="addProduct">
+        update eps_product_info set product_count=#{productCount} , product_purchase_price=#{productPurchasePrice} ,product_from=#{supplierInfo}
+        where product_name=#{productName}
+    </update>
+    <select id="findIdbyName" resultType="java.lang.Long">
+       select id from eps_product_info where product_name=#{productName}
+    </select>
+    <delete id="deleteByWarehouseEnterName">
+      delete from warehouse_order_info where warehouse_id=#{id} and product_name=#{productName}
+    </delete>
+    <delete id="deleWarenouseOrder">
+        delete from warehouse_order where warehouse_id=#{id}
+    </delete>
+    <update id="addProducttwo">
+            update eps_product_info set product_count=#{productCount} , product_purchase_price=#{productPurchasePrice}
+             where product_name=#{productName}
+    </update>
+    <update id="outboundWarehouseOUtState">
+        update warehouse_order set warehouse_state=0 where warehouse_state=#{id}
+    </update>
+    <insert id="addProductToStager">
+        insert into eps_product_info values (null ,#{productName} ,#{productCount} ,null ,now(),#{productFrom} ,#{productCategory}, null ,#{productPurchasePriceValue}  ,null )
+    </insert>
+    <insert id="addCategoryName">
+        insert into category_info values (null ,#{categoryName})
+    </insert>
 </mapper>

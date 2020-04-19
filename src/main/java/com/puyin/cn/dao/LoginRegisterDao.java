@@ -1,6 +1,7 @@
 package com.puyin.cn.dao;
 
 import com.puyin.cn.BO.RegisterBo;
+import com.puyin.cn.BO.UpdatePassWordBo;
 import com.puyin.cn.entity.UserPo;
 import org.springframework.stereotype.Repository;
 
@@ -17,4 +18,18 @@ public interface LoginRegisterDao {
     UserPo findUser(String username);
     int insertUser(RegisterBo registerBo);
     Integer finfUserByuerneme(String username);
+
+    /**
+     * 修改密码
+     * @param updatePassWordBo
+     * @return
+     */
+    int UpdatePassWord (UpdatePassWordBo updatePassWordBo);
+
+    /**
+     * 根据用户名查询密码
+     * @param userName
+     * @return
+     */
+    String findPassword(String userName);
 }

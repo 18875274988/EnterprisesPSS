@@ -12,6 +12,10 @@ import lombok.Data;
 @Data
 public class WarehouseOutInfo {
     /**
+     * 商品id
+     */
+    private Long warehouseId;
+    /**
      * 商品名
      */
     private String productName;

@@ -13,5 +13,11 @@
                 select id from eps_user where username=#{username}
 
     </select>
+    <update id="UpdatePassWord">
+        update eps_user set password=#{newPassword}  where username=#{userName}
+    </update>
+    <select id="findPassword" resultType="java.lang.String">
+        select password from eps_user where username=#{userName}
+    </select>
 
 </mapper>

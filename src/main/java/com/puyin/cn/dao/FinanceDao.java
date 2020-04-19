@@ -60,4 +60,17 @@ public interface FinanceDao {
      * @return
      */
     int finishReceiptOrder(Long id);
+
+    /**
+     * 收款完成调用修改订单状态
+     * @param id
+     * @return
+     */
+   int updateSellOrderState(Long id);
+
+    /**
+     * 根据收款id查询订单id
+     * @return
+     */
+   Long findSellOrderIdByFinanceId(Long id);
 }

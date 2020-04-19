@@ -53,7 +53,7 @@ public class MyStringUtil {
      * @return
      */
     public static String subStringStr(String str) {
-        str = str.replaceAll("([1-9]+[0-9]*|0)(\\\\.[\\\\d]+)?", "");
+        str = str.replaceAll("[/\\d+\\.?\\d*/]", "");
 
         return str;
     }

@@ -2,6 +2,7 @@ package com.puyin.cn.controller;
 
 import com.puyin.cn.BO.LoginRegisterBo;
 import com.puyin.cn.BO.RegisterBo;
+import com.puyin.cn.BO.UpdatePassWordBo;
 import com.puyin.cn.service.LoginRegisterService;
 import com.puyin.cn.vo.LoginRegisterVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,5 +52,15 @@ public class LoginRegisterController {
         }
         LoginRegisterVo loginRegisterVo = loginRegisterService.finduserByusername(username);
         return loginRegisterVo;
+    }
+
+    /**
+     * 修改密码
+     * @param updatePassWordBo
+     * @return
+     */
+    @RequestMapping("UpdatePassword")
+    public int UpdatePassWord(UpdatePassWordBo updatePassWordBo){
+        return loginRegisterService.UpdatePassWord(updatePassWordBo);
     }
 }

@@ -2,6 +2,7 @@ package com.puyin.cn.service.serviceIpml;
 
 import com.puyin.cn.BO.LoginRegisterBo;
 import com.puyin.cn.BO.RegisterBo;
+import com.puyin.cn.BO.UpdatePassWordBo;
 import com.puyin.cn.dao.LoginRegisterDao;
 import com.puyin.cn.entity.UserPo;
 import com.puyin.cn.service.LoginRegisterService;
@@ -76,6 +77,22 @@ public class LoginRegisterServiceIpml implements LoginRegisterService {
         }else {
            return loginRegisterVo.setState(0);
 
+        }
+    }
+
+    /**
+     * 修改密码
+     * @param updatePassWordBo
+     * @return
+     */
+    @Override
+    public int UpdatePassWord(UpdatePassWordBo updatePassWordBo) {
+        String password = loginRegisterDao.findPassword(updatePassWordBo.getUserName());
+        if(updatePassWordBo.getNewPassword().equals(password)){
+            return 1;
+        }else {
+            loginRegisterDao.UpdatePassWord(updatePassWordBo);
+            return 0;
         }
     }
 }

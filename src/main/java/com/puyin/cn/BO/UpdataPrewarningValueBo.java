@@ -17,5 +17,5 @@ public class UpdataPrewarningValueBo {
     /**
      * 货物预警值
      */
-    private Integer prewarningValue;
+    private Double prewarningValue;
 }

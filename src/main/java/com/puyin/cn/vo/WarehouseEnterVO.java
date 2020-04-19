@@ -32,4 +32,8 @@ public class WarehouseEnterVO {
      * 供应商信息
      */
     private String supplierInfo;
+    /**
+     * 货物类别
+     */
+    private String category;
 }

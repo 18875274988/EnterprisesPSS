@@ -1,5 +1,6 @@
 package com.puyin.cn.service;
 
+import com.puyin.cn.BO.AddProductBo;
 import com.puyin.cn.BO.UpdataPrewarningValueBo;
 import com.puyin.cn.entity.EpsProductInfoPo;
 import com.puyin.cn.entity.Inbound;
@@ -33,7 +34,7 @@ public interface EpsProductService {
      * @param id
      * @return
      */
-    Integer findEpsPrewarningById(Long id);
+    Double findEpsPrewarningById(Long id);
     /**
      * 查询所有库单
      * @return
@@ -61,4 +62,32 @@ public interface EpsProductService {
      * @return
      */
     List<WarehouseEnterVO> finWarehouseEnterInfoById(Long id);
+
+    /**
+     * 确定入库
+     * @param warehouseEnterVO
+     * @return
+     */
+    int PutInStorge(WarehouseEnterVO warehouseEnterVO);
+
+    /**
+     * 确定出库
+     * @param warehouseOutInfo
+     * @return
+     */
+    int PutOutStorge(WarehouseOutInfo warehouseOutInfo);
+
+    /**
+     * 添加商品信息
+     * @param addProductBo
+     * @return
+     */
+    int addProductToStager(AddProductBo addProductBo);
+
+    /**
+     * 添加类目
+     * @param categoryName
+     * @return
+     */
+    int addCategoryName(String categoryName);
 }

@@ -74,6 +74,10 @@ public class FinanceServiceImpl implements FinanceService {
 
     @Override
     public int finishReceiptOrder(Long id) {
+        //查询订单id
+        Long sellOrderIdByFinanceId = financeDao.findSellOrderIdByFinanceId(id);
+        //修改订单状态
+        financeDao.updateSellOrderState(sellOrderIdByFinanceId);
         return financeDao.finishReceiptOrder(id);
     }
 }
