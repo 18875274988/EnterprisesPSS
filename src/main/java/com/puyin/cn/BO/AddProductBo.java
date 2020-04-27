@@ -30,6 +30,9 @@ public class AddProductBo {
      * 商品采购价
      */
     private String productPurchasePrice;
+    /**
+     * 商品采购价（double类型）
+     */
     private Double productPurchasePriceValue;
 
 }

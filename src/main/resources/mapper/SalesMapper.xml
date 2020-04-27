@@ -3,7 +3,7 @@
 <mapper namespace="com.puyin.cn.dao.SalesDao">
 
     <select id="findAllProduct" resultType="com.puyin.cn.entity.SalesOrderProductPO">
-        select id,product_name,product_count,product_price,product_category from  eps_product_info
+        select id,product_name,product_count,product_price,product_category from  eps_product_info where product_price is not null
     </select>
     <select id="findAllCateGroy" resultType="com.puyin.cn.entity.CategroyPo">
         select category_name from category_info

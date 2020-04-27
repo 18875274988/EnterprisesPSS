@@ -47,7 +47,7 @@ public class EpsProductServiceImpl implements EpsProductService {
         UpdataProductStateByIdPo updataProductStateByIdPo = new UpdataProductStateByIdPo();
        updataProductStateByIdPo.setProductCount(productCount);
        updataProductStateByIdPo.setProductId(updataPrewarningValueBo.getProductId());
-       if(prewarningValue<productCount){
+       if(prewarningValue>productCount){
            epsProductDao.updataProductStateById(updataPrewarningValueBo.getProductId());
        }else {
            epsProductDao.updataProductStateByIdtwo(updataPrewarningValueBo.getProductId());
@@ -220,8 +220,8 @@ public class EpsProductServiceImpl implements EpsProductService {
         boolean getProductName = addProductBo.getProductName().isEmpty();
         boolean getProductPurchasePrice = addProductBo.getProductPurchasePrice().isEmpty();
         boolean getProductFrom = addProductBo.getProductFrom().isEmpty();
-        String productPurchasePrice = addProductBo.getProductPurchasePrice().replaceAll("[1-9]\\d*.\\d*|0.\\d*[1-9]\\d*", "");
-        addProductBo.setProductPurchasePriceValue(Double.valueOf(productPurchasePrice));
+        Double productPurchasePrice = MyStringUtil.SubStringNumber(addProductBo.getProductPurchasePrice());
+        addProductBo.setProductPurchasePriceValue(productPurchasePrice);
         if(getProductCategory && getProductCount &&getProductName &&getProductPurchasePrice &&getProductFrom){
             return false;
         }
