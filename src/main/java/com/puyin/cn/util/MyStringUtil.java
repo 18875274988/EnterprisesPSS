@@ -73,4 +73,13 @@ public class MyStringUtil {
         }
         return dateresult;
     }
+    public static boolean checkDouble(String str){
+        String regEx = "[1-9]\\d*.\\d*|0.\\d*[1-9]\\d*";
+        Pattern p = compile(regEx);
+        Matcher m = p.matcher(str);
+        if (!m.matches()){
+            return false;
+        }
+        return true;
+    }
 }

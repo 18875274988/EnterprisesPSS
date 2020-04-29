@@ -1,11 +1,15 @@
 package com.puyin.cn.service;
 
+import com.puyin.cn.BO.AddProductPriceBo;
 import com.puyin.cn.BO.SubmitOrderBo;
+import com.puyin.cn.entity.AddProductPricePo;
 import com.puyin.cn.entity.CategroyPo;
 import com.puyin.cn.entity.CommodityStocksPo;
 import com.puyin.cn.entity.TemporaryPo;
 import com.puyin.cn.vo.SalesVo;
+import org.apache.ibatis.annotations.Param;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -51,5 +55,17 @@ public interface SalesService {
      * @param orderId
      */
      void addReceipt(SubmitOrderBo submitOrderBo,int state,Long orderId);
+    /**
+     * 查询为定价无货信息
+     * @return
+     */
+    List<AddProductPricePo> findAllNoPriceProducyt();
+
+    /**
+     * 添加货物单价
+     * @param addProductPriceBo
+     * @return
+     */
+    int AddProductPrice(AddProductPriceBo addProductPriceBo);
 
 }

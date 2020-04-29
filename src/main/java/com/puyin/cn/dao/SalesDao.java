@@ -4,6 +4,7 @@ import com.puyin.cn.entity.*;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -74,5 +75,19 @@ public interface SalesDao {
      * @return
      */
     int addReceipt(FinancePo financePo);
+
+    /**
+     * 查询为定价无货信息
+     * @return
+     */
+    List<AddProductPricePo> findAllNoPriceProducyt();
+
+    /**
+     * 添加货物单价
+     * @param id
+     * @param price
+     * @return
+     */
+    int AddProductPrice(@Param("id") Long id,@Param("price") BigDecimal price);
 
 }

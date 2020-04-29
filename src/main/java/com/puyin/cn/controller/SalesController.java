@@ -1,8 +1,7 @@
 package com.puyin.cn.controller;
 
-import com.puyin.cn.BO.ClientInfoBo;
-import com.puyin.cn.BO.SubmitOrderBo;
-import com.puyin.cn.BO.TemporaryProductBo;
+import com.puyin.cn.BO.*;
+import com.puyin.cn.entity.AddProductPricePo;
 import com.puyin.cn.entity.CategroyPo;
 import com.puyin.cn.entity.TemporaryPo;
 import com.puyin.cn.service.SalesService;
@@ -90,5 +89,20 @@ public class SalesController {
         int productCount = salesService.findProductCount(submitOrderBo);
         return productCount;
     }
-
+    /**
+     * 查询为定价货物信息
+     * @return
+     */
+    @RequestMapping("findAllNoPriceProducyt")
+    public List<AddProductPricePo> findAllNoPriceProducyt(){
+      return   salesService.findAllNoPriceProducyt();
+    }
+    /**
+     * 货物定价
+     * @return
+     */
+    @RequestMapping("AddProductPrice")
+    public int AddProductPrice(AddProductPriceBo addProductPriceBo){
+        return  salesService.AddProductPrice(addProductPriceBo);
+    }
 }

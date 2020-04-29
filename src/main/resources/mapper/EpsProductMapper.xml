@@ -51,7 +51,7 @@
         delete from warehouse_order where warehouse_id=#{id}
     </delete>
     <update id="addProducttwo">
-            update eps_product_info set product_count=#{productCount} , product_purchase_price=#{productPurchasePrice}
+            update eps_product_info set product_count=#{productCount}
              where product_name=#{productName}
     </update>
     <update id="outboundWarehouseOUtState">

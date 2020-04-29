@@ -44,4 +44,10 @@
     <insert id="addReceipt">
         insert into finance values (null ,#{orderId} ,#{amount} ,#{name} ,#{tel} ,#{no}, 1,#{state} ,now(),null )
     </insert>
+    <select id="findAllNoPriceProducyt" resultType="com.puyin.cn.entity.AddProductPricePo">
+        select id,product_name,product_purchase_price from eps_product_info where  ISNULL(product_price)
+    </select>
+    <update id="AddProductPrice">
+        update eps_product_info set product_price=#{price} where id=#{id} 
+    </update>
 </mapper>

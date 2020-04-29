@@ -114,6 +114,13 @@ public interface ProcurementDao {
      * @return
      */
     int addOutboundOrder(@Param("warehouseNo") String warehouseNo,@Param("state") Integer state);
+
+    /**
+     * 根据出库编号删除出库单
+     * @param outbountNo
+     * @return
+     */
+    int deleteOutbountOrder(String outbountNo);
     /**
      * 根据出库单编导查询id
      * @param warehouseNo

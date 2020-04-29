@@ -1,5 +1,6 @@
 package com.puyin.cn.service.serviceIpml;
 
+import com.puyin.cn.BO.AddProductPriceBo;
 import com.puyin.cn.BO.SubmitOrderBo;
 import com.puyin.cn.dao.ProcurementDao;
 import com.puyin.cn.dao.SalesDao;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -145,17 +147,35 @@ public class SalesServiceImpl implements SalesService {
             }
             procurementDao.insetPurchaseOrderProduct(purchaseOrderProductPos);
         }
-        //4.将不缺货商品生成商品出库单
-        if(productNoStockoutList.size()!=0){
+        //4.将不缺货商品和缺货货物已有库存生成商品出库单
+        if((productNoStockoutList.size()==0 && productStockoutList.size()!=0) || (productNoStockoutList.size()!=0 && productStockoutList.size()==0) ||(productNoStockoutList.size()!=0 && productStockoutList.size()!=0)){
             //4.1生成出库单编号
-            String warehouseNo = "EPSWO"+MyStringUtil.getTimeToString();
-            procurementDao.addOutboundOrder(warehouseNo,0);
-            Long warehouseId = procurementDao.findNOBywarehouseId(warehouseNo);
+                String warehouseNo = "EPSWO"+MyStringUtil.getTimeToString();
+                procurementDao.addOutboundOrder(warehouseNo,0);
+                  Long  warehouseId = procurementDao.findNOBywarehouseId(warehouseNo);
             for (CommodityStocksPo commodityStocksPo : productNoStockoutList) {
                 String productName = salesDao.findProductNameById(commodityStocksPo.getId());
                 String productCount = commodityStocksPo.getProductCount();
                 procurementDao.addOutboundOrderInfo(productName,productCount,warehouseId);
             }
+                for (CommodityStocksPo commodityStocksPo : productStockoutList) {
+                    String productName = salesDao.findProductNameById(commodityStocksPo.getId());
+                    for (CommodityStocksPo stocksPo : commodityStocksPos) {
+                        if(stocksPo.getId().equals(commodityStocksPo.getId())){
+                            BigDecimal ordercount = new BigDecimal(MyStringUtil.SubStringNumber(stocksPo.getProductCount()));
+                            String unit = MyStringUtil.subStringStr(commodityStocksPo.getProductCount());
+                            BigDecimal productcount = new BigDecimal(MyStringUtil.SubStringNumber(commodityStocksPo.getProductCount()));
+                            BigDecimal subtract = ordercount.subtract(productcount);
+                            if(subtract.doubleValue()!=0){
+                                procurementDao.addOutboundOrderInfo(productName,subtract+unit,warehouseId);
+                            }else {
+                                //删除该出库单
+                                procurementDao.deleteOutbountOrder(warehouseNo);
+                            }
+
+                        }
+                    }
+                }
         }
         //5.生成订单,订单状态分为有缺货商品和无缺货商品两种状态并生成收款单
         if(productStockoutList.size()==0){
@@ -228,5 +248,32 @@ public class SalesServiceImpl implements SalesService {
         financePo.setOrderId(orderNo);
         financePo.setAmount(submitOrderBo.getTotalPrice());
         salesDao.addReceipt(financePo);
+    }
+    /**
+     * 查询为定价无货信息
+     * @return
+     */
+    @Override
+    public List<AddProductPricePo> findAllNoPriceProducyt() {
+        return salesDao.findAllNoPriceProducyt();
+    }
+
+    /**
+     添加货物销售单价
+     * @param addProductPriceBo
+     * @return
+     */
+    @Override
+    public int AddProductPrice(AddProductPriceBo addProductPriceBo) {
+        //入参校验
+        if(!(MyStringUtil.checkDouble(addProductPriceBo.getPrice()))){
+            return -1;
+        }else if(addProductPriceBo.getPrice().equals("")){
+            return -1;
+        } else  {
+            BigDecimal price = new BigDecimal(addProductPriceBo.getPrice());
+            return salesDao.AddProductPrice(addProductPriceBo.getId(),price);
+        }
+
     }
 }

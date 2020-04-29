@@ -150,7 +150,7 @@ public class EpsProductServiceImpl implements EpsProductService {
         String unit = MyStringUtil.subStringStr(productCountByName);
         warehouseOutInfo.setProductCount(count+unit);
         BeanUtils.copyProperties(warehouseOutInfo,warehouseEnterVO);
-        //商品入库
+        //商品出库
         epsProductDao.addProducttwo(warehouseEnterVO);
         //查询该商品id从而查询预警值
         updatePrewrningStaeAndUpdateWarehouse(count,warehouseEnterVO);
