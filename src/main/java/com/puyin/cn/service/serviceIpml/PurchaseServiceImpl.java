@@ -3,7 +3,6 @@ package com.puyin.cn.service.serviceIpml;
 import com.puyin.cn.BO.PurchaseProductBo;
 import com.puyin.cn.BO.PurchaseSubmitBo;
 import com.puyin.cn.dao.ProcurementDao;
-import com.puyin.cn.dao.SalesDao;
 import com.puyin.cn.entity.FinancePo;
 import com.puyin.cn.entity.PurchaseOrderByIdPo;
 import com.puyin.cn.entity.PurchaseProductInfoPo;
@@ -16,7 +15,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.net.PortUnreachableException;
 import java.util.List;
 
 /**

@@ -67,7 +67,7 @@ public class SalesServiceImpl implements SalesService {
         return temporaryPos;
     }
     /**
-     * 查询销售部提交订单货物库存
+     * 销售部提交订单
      * @param submitOrderBo
      * @return
      */
@@ -166,9 +166,9 @@ public class SalesServiceImpl implements SalesService {
                             String unit = MyStringUtil.subStringStr(commodityStocksPo.getProductCount());
                             BigDecimal productcount = new BigDecimal(MyStringUtil.SubStringNumber(commodityStocksPo.getProductCount()));
                             BigDecimal subtract = ordercount.subtract(productcount);
-                            if(subtract.doubleValue()!=0){
+                            if(subtract.doubleValue()!=0 ){
                                 procurementDao.addOutboundOrderInfo(productName,subtract+unit,warehouseId);
-                            }else {
+                            }else if(subtract.doubleValue()==0&& productNoStockoutList.size()==0){
                                 //删除该出库单
                                 procurementDao.deleteOutbountOrder(warehouseNo);
                             }

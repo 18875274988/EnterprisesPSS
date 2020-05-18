@@ -39,6 +39,12 @@ public class LoginRegisterController {
         }
 
     }
+
+    /**
+     * 注册功能
+     * @param registerBo
+     * @return
+     */
     @RequestMapping("insertUser")
     public LoginRegisterVo insertUser(RegisterBo registerBo) {
         return loginRegisterService.insertUser(registerBo);
